@@ -1,13 +1,13 @@
 using System;
 
-namespace dotnetcore
+namespace sandwichshop.Sandwich
 {
     public class Ingredient
     {
-        public Quantity Quantity;
+        public Quantity.Quantity Quantity;
         public String Name;
 
-        public Ingredient(Quantity quantity, String name)
+        public Ingredient(Quantity.Quantity quantity, String name)
         {
             Quantity = quantity;
             Name = name;

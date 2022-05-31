@@ -17,7 +17,7 @@ this should all look very familiar.
 The root of the repository contains the out of the `dotnet new console` command,
 which generates a new console application that just prints out "Hello, World."
 It's a simple example, but great for demonstrating how easy GitLab CI is to
-use with .NET. Check out the `Program.cs` and `dotnetcore.csproj` files to
+use with .NET. Check out the `Program.cs` and `sandwichshop.csproj` files to
 see how these work.
 
 In addition to the .NET Core content, there is a ready-to-go `.gitignore` file

@@ -1,24 +1,24 @@
 using System;
 using System.Collections.Generic;
 
-namespace dotnetcore.infrastructure
+namespace sandwichshop.infrastructure
 {
     public class InMemorySandwichRepository
     {
-        public List<Sandwich> data = new List<Sandwich>();
-        public void Add(Sandwich sandwich)
+        public List<sandwichshop.Sandwich.Sandwich> data = new List<sandwichshop.Sandwich.Sandwich>();
+        public void Add(sandwichshop.Sandwich.Sandwich sandwich)
         {
             data.Add(sandwich);
         }
 
-        public void Delete(Sandwich sandwich)
+        public void Delete(sandwichshop.Sandwich.Sandwich sandwich)
         {
             data.Remove(sandwich);
         }
 
-        public Sandwich FindByName(String name)
+        public sandwichshop.Sandwich.Sandwich FindByName(String name)
         {
-            Sandwich sandwich = null;
+            sandwichshop.Sandwich.Sandwich sandwich = null;
             for (int i = 0; i < data.Count; i++)
             {
                 if (data[i].Name == name)
@@ -33,7 +33,7 @@ namespace dotnetcore.infrastructure
             return sandwich;
         }
 
-        public List<Sandwich> FindAll()
+        public List<sandwichshop.Sandwich.Sandwich> FindAll()
         {
             return data;
         }
