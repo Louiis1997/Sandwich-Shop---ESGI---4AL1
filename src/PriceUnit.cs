@@ -6,6 +6,5 @@ namespace dotnetcore
         Dollar = '$',
         Pound = '£',
         Yen = '¥'
-        ,
     }
 }

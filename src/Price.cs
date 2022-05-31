@@ -4,10 +4,10 @@ namespace dotnetcore
 {
     public class Price
     {
-        public int Value;
+        public double Value;
         public PriceUnit Unit;
 
-        public Price(int value, PriceUnit unit)
+        public Price(double value, PriceUnit unit)
         {
             Value = value;
             Unit = unit;

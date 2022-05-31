@@ -4,10 +4,10 @@ namespace dotnetcore
 {
     public class Quantity
     {
-        public int Value;
+        public double Value;
         public QuantityUnit Unit;
 
-        public Quantity(int value, QuantityUnit unit)
+        public Quantity(double value, QuantityUnit unit)
         {
             Value = value;
             Unit = unit;
