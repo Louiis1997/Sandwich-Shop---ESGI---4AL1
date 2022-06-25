@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using sandwichshop.Currencies;
 using sandwichshop.Bill;
+using sandwichshop.Menu;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwich;
 using sandwichshop.Sandwich;
@@ -69,6 +70,45 @@ Sandwich chickenVegetablesSandwich = new Sandwich(
 
 #endregion
 
+#region Create Menu with all sandwiches
+
+Menu menu = new Menu();
+menu.AddSandwich(dieppois);
+menu.AddSandwich(butterHamSandwich);
+menu.AddSandwich(chickenVegetablesSandwich);
+
+#endregion
+
+#region Display menu and instructions to client
+// TODO
+#endregion
+
+#region Retrieve client command (see 'Sujet initial projet.pdf)
+// TODO
+#endregion
+
+#region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
+// TODO
+#endregion
+
+/* Extract from 'Sujet initial projet.pdf :
+ " 2.4 Comportement attendu du programme
+        Votre programme devra récupérer l'entrée de l'utilisateur et valider sa conformité.
+        En cas de commande incorrecte, votre programme produira une erreur compréhensible mais ne devra pas crasher.
+        En cas de commande correcte, votre programme écrira dans la console la facture.
+        Après avoir traité une commande, votre programme attendra la commande suivante, il ne doit pas s'arrêter après avoir écrit une facture.
+    "
+ */
+
+#region Generate bill from sandwiches
+// TODO
+#endregion
+
+#region Display bill to client
+// TODO
+#endregion
+
+// TODO : remove next line (they are examples to create a bill and generate it in console)
 Bill bill = new Bill();
 bill.AddSandwich(butterHamSandwich, new Quantity(1, quantityUnits.Get(QuantityUnitName.None)));
 bill.AddSandwich(dieppois, new Quantity(1, quantityUnits.Get(QuantityUnitName.None)));
