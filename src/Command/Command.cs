@@ -17,6 +17,7 @@ public class Command
     }
     public Dictionary<sandwichshop.Sandwich.Sandwich, int> parseCommand(Menu.Menu menu, string userEntry)
     {
+        userEntry = userEntry.Trim();
         string[] spliteSandwich = userEntry.Split(", ");
         string[] spliteQuantity;
         foreach (string sandwich in spliteSandwich)

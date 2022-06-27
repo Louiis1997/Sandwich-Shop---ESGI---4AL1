@@ -72,49 +72,41 @@ Sandwich chickenVegetablesSandwich = new Sandwich(
 #endregion
 
 #region Create Menu with all sandwiches
-
 Menu menu = new Menu();
 menu.AddSandwich(dieppois);
 menu.AddSandwich(butterHamSandwich);
 menu.AddSandwich(chickenVegetablesSandwich);
-
 #endregion
 
-#region Display menu and instructions to client
-menu.DisplayMenu();
-#endregion
+while (true)
+{
+    #region Display menu and instructions to client
+    menu.DisplayMenu();
+    #endregion
 
-#region Retrieve client command (see 'Sujet initial projet.pdf)
+    #region Retrieve client command (see 'Sujet initial projet.pdf)
 
- string userEntry = Console.ReadLine();
+    string userEntry = Console.ReadLine();
 
-#endregion
+    #endregion
 
-#region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
+    #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
 
-Command command = new Command();
-command.parseCommand(menu, userEntry);
+    Command command = new Command();
+    command.parseCommand(menu, userEntry);
 
-#endregion
+    #endregion
 
-/* Extract from 'Sujet initial projet.pdf :
- " 2.4 Comportement attendu du programme
-        Votre programme devra récupérer l'entrée de l'utilisateur et valider sa conformité.
-        En cas de commande incorrecte, votre programme produira une erreur compréhensible mais ne devra pas crasher.
-        En cas de commande correcte, votre programme écrira dans la console la facture.
-        Après avoir traité une commande, votre programme attendra la commande suivante, il ne doit pas s'arrêter après avoir écrit une facture.
-    "
- */
-
-#region Generate bill from sandwiches
-// TODO
-#endregion
-
-#region Display bill to client
-// TODO
-#endregion
-
-// TODO : remove next line (they are examples to create a bill and generate it in console)
-Bill bill = new Bill(quantityUnits);
-bill.AddUserCommand(command);
-Console.WriteLine(bill.Generate());
+    #region Display bill to client
+    Bill bill = new Bill(quantityUnits);
+    bill.AddUserCommand(command);
+    Console.WriteLine(bill.Generate());
+    #endregion
+    
+    Console.WriteLine("Voulez-vous faire une autre commande ? OUI/Non");
+    string endProgramOrContinue = Console.ReadLine();
+    if (endProgramOrContinue == "Non")
+    {
+        break;
+    }
+}

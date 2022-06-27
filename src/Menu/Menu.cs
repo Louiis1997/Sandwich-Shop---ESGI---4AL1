@@ -35,7 +35,7 @@ public class Menu
     
     public void DisplayMenu()
     {
-        System.Console.WriteLine("===================================");
+        System.Console.WriteLine("\n\n\n===================================");
         System.Console.WriteLine("Bienvenue dans le sandwich shop");
         System.Console.WriteLine("Veuillez choisir un sandwich: ");
         foreach (Sandwich sandwich in AvailableSandwiches)
