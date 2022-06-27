@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using sandwichshop.Currencies;
 using sandwichshop.Bill;
+using sandwichshop.Command;
 using sandwichshop.Menu;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwich;
@@ -54,11 +55,11 @@ chickenVegetablesSandwichIngredients.Add(mayonnaise);
 chickenVegetablesSandwichIngredients.Add(salad);
 
 List<Ingredient> dieppoisIngredients = new List<Ingredient>();
-chickenVegetablesSandwichIngredients.Add(bread);
-chickenVegetablesSandwichIngredients.Add(thon);
-chickenVegetablesSandwichIngredients.Add(tomato);
-chickenVegetablesSandwichIngredients.Add(mayonnaise);
-chickenVegetablesSandwichIngredients.Add(salad);
+dieppoisIngredients.Add(bread);
+dieppoisIngredients.Add(thon);
+dieppoisIngredients.Add(tomato);
+dieppoisIngredients.Add(mayonnaise);
+dieppoisIngredients.Add(salad);
 
 Sandwich dieppois = new Sandwich("Dieppois", dieppoisIngredients, new Price(4.50, currencies.Get(CurrencyName.Euro)));
 Sandwich butterHamSandwich = new Sandwich("Jambon beurre", butterHam, new Price(3.50, currencies.Get(CurrencyName.Euro)));
@@ -80,15 +81,20 @@ menu.AddSandwich(chickenVegetablesSandwich);
 #endregion
 
 #region Display menu and instructions to client
-// TODO
+menu.DisplayMenu();
 #endregion
 
 #region Retrieve client command (see 'Sujet initial projet.pdf)
-// TODO
+
+ string userEntry = Console.ReadLine();
+
 #endregion
 
 #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
-// TODO
+
+Command command = new Command();
+command.parseCommand(menu, userEntry);
+
 #endregion
 
 /* Extract from 'Sujet initial projet.pdf :
@@ -109,8 +115,6 @@ menu.AddSandwich(chickenVegetablesSandwich);
 #endregion
 
 // TODO : remove next line (they are examples to create a bill and generate it in console)
-Bill bill = new Bill();
-bill.AddSandwich(butterHamSandwich, new Quantity(1, quantityUnits.Get(QuantityUnitName.None)));
-bill.AddSandwich(dieppois, new Quantity(1, quantityUnits.Get(QuantityUnitName.None)));
-bill.AddSandwich(chickenVegetablesSandwich, new Quantity(1, quantityUnits.Get(QuantityUnitName.None)));
+Bill bill = new Bill(quantityUnits);
+bill.AddUserCommand(command);
 Console.WriteLine(bill.Generate());

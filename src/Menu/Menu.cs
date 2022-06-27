@@ -22,4 +22,31 @@ public class Menu
     {
         AvailableSandwiches.Remove(sandwich);
     }
+    
+    public Sandwich FindSandwich(string name)
+    {
+        Sandwich? found = AvailableSandwiches.Find(s => s.Name == name);
+        if (found == null)
+        {
+            throw new System.Exception("Sandwich not found with name : " + name);
+        }
+        return found;
+    }
+    
+    public void DisplayMenu()
+    {
+        System.Console.WriteLine("===================================");
+        System.Console.WriteLine("Bienvenue dans le sandwich shop");
+        System.Console.WriteLine("Veuillez choisir un sandwich: ");
+        foreach (Sandwich sandwich in AvailableSandwiches)
+        {
+            System.Console.Write($"- {sandwich.Name} à {sandwich.Price} : ");
+            for (int i = 0; i < sandwich.Ingredients.Count; i++)
+            {
+                Ingredient sandwichIngredient = sandwich.Ingredients[i];
+                System.Console.Write($"{sandwichIngredient.Quantity} {sandwichIngredient.Name}" +
+                                     (i == sandwich.Ingredients.Count - 1 ? "\n" : ", "));
+            }
+        }
+    }
 }

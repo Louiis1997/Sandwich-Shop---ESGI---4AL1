@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using sandwichshop.Currencies;
+using sandwichshop.Quantity;
 using sandwichshop.Sandwich;
 
 namespace sandwichshop.Bill
@@ -9,6 +10,7 @@ namespace sandwichshop.Bill
         private Dictionary<sandwichshop.Sandwich.Sandwich, Quantity.Quantity> sandwiches;
         private double TotalPrice = 0;
         private Currency TotalPriceUnit;
+        private QuantityUnits Units;
 
         private string factureText =
             " ______         _\n" +
@@ -19,9 +21,10 @@ namespace sandwichshop.Bill
             "|_|  \\__,_|\\___|\\__|\\__,_|_|  \\___|\n";
 
 
-        public Bill()
+        public Bill(QuantityUnits Units)
         {
             sandwiches = new Dictionary<sandwichshop.Sandwich.Sandwich, Quantity.Quantity>();
+            this.Units = Units;
         }
 
         public void AddSandwich(sandwichshop.Sandwich.Sandwich sandwich, Quantity.Quantity quantity)
@@ -31,6 +34,14 @@ namespace sandwichshop.Bill
                 ? new Quantity.Quantity(sandwiches[sandwich].Value + quantity.Value, sandwiches[sandwich].QuantityUnit)
                 : quantity;
             sandwiches.Add(sandwich, newQuantity);
+        }
+
+        public void AddUserCommand(Command.Command command)
+        {
+            foreach (KeyValuePair<Sandwich.Sandwich, int> sandwichWithQuantity in command.getSandwiches())
+            {
+                    this.sandwiches.Add(sandwichWithQuantity.Key, new Quantity.Quantity(sandwichWithQuantity.Value, Units.Get(QuantityUnitName.None)));
+            }
         }
 
         public string Generate()
@@ -44,8 +55,8 @@ namespace sandwichshop.Bill
                     sandwichesInBill +=
                         $"\t{sandwichIngredient.Quantity} {sandwichIngredient.Name}\n";
                 }
-
-                TotalPrice += sandwich.Price.Value;
+                
+                TotalPrice += sandwich.Price.Value * quantity.Value;
                 if (TotalPriceUnit == null)
                 {
                     TotalPriceUnit = sandwich.Price.Unit;
