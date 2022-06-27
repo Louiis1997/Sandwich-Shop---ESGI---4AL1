@@ -38,7 +38,7 @@ namespace sandwichshop.Bill
 
         public void AddUserCommand(Command.Command command)
         {
-            foreach (KeyValuePair<Sandwich.Sandwich, int> sandwichWithQuantity in command.getSandwiches())
+            foreach (KeyValuePair<Sandwich.Sandwich, int> sandwichWithQuantity in command.GetSandwiches())
             {
                     this.sandwiches.Add(sandwichWithQuantity.Key, new Quantity.Quantity(sandwichWithQuantity.Value, Units.Get(QuantityUnitName.None)));
             }

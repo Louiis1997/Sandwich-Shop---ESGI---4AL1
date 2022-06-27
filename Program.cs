@@ -93,7 +93,7 @@ while (true)
     #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
 
     Command command = new Command();
-    command.parseCommand(menu, userEntry);
+    command.ParseCommand(menu, userEntry);
 
     #endregion
 
@@ -112,6 +112,7 @@ while (true)
 }
 
 // TODO : Fixer les problèmes d'import qui fait qu'on doit écrire par exemple 'Sandwich.Sandwich'
+// TODO : Mieux gérer le fait qu'un sandwich n'existe pas
 // TODO : Refacto avec des design patterns
 // TODO : Revoir les responsabilités des classes
 // TODO : Voir s'il faut plus de services (Command readline, etc.)
