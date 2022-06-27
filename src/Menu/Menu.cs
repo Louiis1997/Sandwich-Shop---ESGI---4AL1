@@ -25,7 +25,7 @@ public class Menu
     
     public Sandwich FindSandwich(string name)
     {
-        Sandwich? found = AvailableSandwiches.Find(s => s.Name == name);
+        Sandwich? found = AvailableSandwiches.Find(s => s.Name.ToLower() == name.ToLower());
         if (found == null)
         {
             throw new System.Exception("Sandwich not found with name : " + name);

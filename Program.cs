@@ -110,3 +110,8 @@ while (true)
         break;
     }
 }
+
+// TODO : Fixer les problèmes d'import qui fait qu'on doit écrire par exemple 'Sandwich.Sandwich'
+// TODO : Refacto avec des design patterns
+// TODO : Revoir les responsabilités des classes
+// TODO : Voir s'il faut plus de services (Command readline, etc.)
