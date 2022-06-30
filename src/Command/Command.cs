@@ -15,7 +15,7 @@ public class Command
     {
         return sandwiches;
     }
-    public Dictionary<sandwichshop.Sandwich.Sandwich, int> ParseCommand(Menu.Menu menu, string userEntry)
+    public void ParseCommand(Menu.Menu menu, string userEntry)
     {
         userEntry = userEntry.Trim();
         string[] splitSandwich = userEntry.Split(", ");
@@ -31,6 +31,5 @@ public class Command
                 sandwiches.Add(menu.FindSandwich(splitQuantity[1]), int.Parse(splitQuantity[0]));
             }
         }
-        return sandwiches;
     }
 }

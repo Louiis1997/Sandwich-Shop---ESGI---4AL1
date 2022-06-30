@@ -6,26 +6,28 @@ using Sandwich;
 
 public class Menu
 {
-    private List<Sandwich> AvailableSandwiches;
+    private List<Sandwich> _availableSandwiches = new();
     
-    public Menu(List<Sandwich>? sandwiches = null)
+    public Menu() {}
+    
+    public void SetMenuSandwiches(List<Sandwich>? sandwiches = null)
     {
-        AvailableSandwiches = sandwiches ?? new List<Sandwich>();
+        _availableSandwiches = sandwiches ?? new List<Sandwich>();
     }
     
     public void AddSandwich(Sandwich sandwich)
     {
-        AvailableSandwiches.Add(sandwich);
+        _availableSandwiches.Add(sandwich);
     }
     
     public void RemoveSandwich(Sandwich sandwich)
     {
-        AvailableSandwiches.Remove(sandwich);
+        _availableSandwiches.Remove(sandwich);
     }
     
     public Sandwich FindSandwich(string name)
     {
-        Sandwich? found = AvailableSandwiches.Find(s => s.Name.ToLower() == name.ToLower());
+        Sandwich? found = _availableSandwiches.Find(s => s.Name.ToLower() == name.ToLower());
         if (found == null)
         {
             throw new System.Exception("Sandwich not found with name : " + name);
@@ -38,7 +40,7 @@ public class Menu
         System.Console.WriteLine("\n\n\n===================================");
         System.Console.WriteLine("Bienvenue dans le sandwich shop");
         System.Console.WriteLine("Veuillez choisir un sandwich: ");
-        foreach (Sandwich sandwich in AvailableSandwiches)
+        foreach (Sandwich sandwich in _availableSandwiches)
         {
             System.Console.Write($"- {sandwich.Name} à {sandwich.Price} : ");
             for (int i = 0; i < sandwich.Ingredients.Count; i++)

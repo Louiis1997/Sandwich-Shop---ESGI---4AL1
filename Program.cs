@@ -72,7 +72,7 @@ Sandwich chickenVegetablesSandwich = new Sandwich(
 #endregion
 
 #region Create Menu with all sandwiches
-Menu menu = new Menu();
+Menu menu = Singleton<Menu>.Instance;;
 menu.AddSandwich(dieppois);
 menu.AddSandwich(butterHamSandwich);
 menu.AddSandwich(chickenVegetablesSandwich);
@@ -103,9 +103,9 @@ while (true)
     Console.WriteLine(bill.Generate());
     #endregion
     
-    Console.WriteLine("Voulez-vous faire une autre commande ? OUI/Non");
+    Console.WriteLine("Voulez-vous faire une autre commande ? O/n");
     string endProgramOrContinue = Console.ReadLine();
-    if (endProgramOrContinue == "Non")
+    if (endProgramOrContinue != null && endProgramOrContinue.ToLower() == "n")
     {
         break;
     }
