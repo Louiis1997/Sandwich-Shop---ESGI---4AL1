@@ -1,15 +1,32 @@
 #nullable enable
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace sandwichshop.Menu;
 using Sandwich;
 
 public class Menu
 {
+    // Store sandwich with quantity
+    private AvailableIngredients _availableIngredients;
     private List<Sandwich> _availableSandwiches = new();
+
+    public Menu(AvailableIngredients availableIngredients)
+    {
+        _availableIngredients = availableIngredients;
+    }
+
+    public Menu()
+    {
+        _availableIngredients = new AvailableIngredients();
+    }
     
-    public Menu() {}
-    
+    public void SetAvailableIngredients(AvailableIngredients availableIngredients)
+    {
+        _availableIngredients = availableIngredients;
+    }
+
     public void SetMenuSandwiches(List<Sandwich>? sandwiches = null)
     {
         _availableSandwiches = sandwiches ?? new List<Sandwich>();
@@ -20,35 +37,56 @@ public class Menu
         _availableSandwiches.Add(sandwich);
     }
     
-    public void RemoveSandwich(Sandwich sandwich)
-    {
-        _availableSandwiches.Remove(sandwich);
-    }
-    
     public Sandwich FindSandwich(string name)
     {
         Sandwich? found = _availableSandwiches.Find(s => s.Name.ToLower() == name.ToLower());
         if (found == null)
         {
-            throw new System.Exception("Sandwich not found with name : " + name);
+            throw new Exception("Sandwich not found with name : " + name);
         }
         return found;
     }
     
     public void DisplayMenu()
     {
-        System.Console.WriteLine("\n\n\n===================================");
-        System.Console.WriteLine("Bienvenue dans le sandwich shop");
-        System.Console.WriteLine("Veuillez choisir un sandwich: ");
+        Console.WriteLine("\n\n\n===================================");
+        Console.WriteLine("Bienvenue dans le sandwich shop");
+        Console.WriteLine("Veuillez choisir un sandwich: ");
         foreach (Sandwich sandwich in _availableSandwiches)
         {
-            System.Console.Write($"- {sandwich.Name} à {sandwich.Price} : ");
-            for (int i = 0; i < sandwich.Ingredients.Count; i++)
+            Console.Write($"- {sandwich.Name} à {sandwich.Price} : ");
+            for (var i = 0; i < sandwich.Ingredients.Count; i++)
             {
                 Ingredient sandwichIngredient = sandwich.Ingredients[i];
-                System.Console.Write($"{sandwichIngredient.Quantity} {sandwichIngredient.Name}" +
+                Console.Write($"{sandwichIngredient.Quantity} {sandwichIngredient.Name}" +
                                      (i == sandwich.Ingredients.Count - 1 ? "\n" : ", "));
             }
         }
+        Console.WriteLine("Entrez votre commande (exemple: '1 dieppois, 4 jambon beurre') : ");
+    }
+    
+    public Sandwich OrderSandwich(Sandwich sandwich)
+    {
+        var ingredients = sandwich.Ingredients;
+        foreach (var ingredient in ingredients)
+        {
+            if (!_availableIngredients.ContainsEnough(ingredient)) {
+                throw new ArgumentException("Ingredient not available : " + ingredient + ".\nAvailable ingredients : " + _availableIngredients);
+            }
+            _availableIngredients.Use(ingredient);
+        }
+        return sandwich;
+    }
+
+    public bool HasEnoughIngredientsForSandwich(int quantity, Sandwich orderedSandwich)
+    {
+        var ingredientsInSandwich = orderedSandwich.Ingredients;
+        // For each ingredient in sandwich
+        return ingredientsInSandwich.All(ingredient => _availableIngredients.ContainsEnough(ingredient));
+    }
+
+    public AvailableIngredients GetAvailableIngredients()
+    {
+        return _availableIngredients;
     }
 }

@@ -1,19 +1,17 @@
-namespace sandwichshop.Quantity
+namespace sandwichshop.Quantity;
+public class Quantity
 {
-    public class Quantity
+    public double Value;
+    public QuantityUnit QuantityUnit;
+
+    public Quantity(double value, QuantityUnit quantityUnit)
     {
-        public double Value;
-        public QuantityUnit QuantityUnit;
+        Value = value;
+        QuantityUnit = quantityUnit;
+    }
 
-        public Quantity(double value, QuantityUnit quantityUnit)
-        {
-            Value = value;
-            QuantityUnit = quantityUnit;
-        }
-
-        public override string ToString()
-        {
-            return $"{Value}{QuantityUnit}";
-        }
+    public override string ToString()
+    {
+        return $"{Value}{QuantityUnit}";
     }
 }

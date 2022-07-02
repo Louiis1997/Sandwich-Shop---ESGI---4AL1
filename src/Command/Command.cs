@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using sandwichshop.Sandwich;
 
 namespace sandwichshop.Command;
 
@@ -18,18 +20,35 @@ public class Command
     public void ParseCommand(Menu.Menu menu, string userEntry)
     {
         userEntry = userEntry.Trim();
-        string[] splitSandwich = userEntry.Split(", ");
-        foreach (string sandwich in splitSandwich)
+        string[] splitCommandItems = userEntry.Split(", ");
+        foreach (string sandwich in splitCommandItems)
         {
-            var splitQuantity = sandwich.Split(" ", 2);
-            if (sandwiches.ContainsKey(menu.FindSandwich(splitQuantity[1])))
+            var splitQuantityAndSandwich = sandwich.Split(" ", 2);
+            var orderedSandwich = menu.FindSandwich(splitQuantityAndSandwich[1]);
+            var quantity = int.Parse(splitQuantityAndSandwich[0]);
+            
+            for (var i = 0; i < quantity; i++)
             {
-                sandwiches[menu.FindSandwich(splitQuantity[1])] += int.Parse(splitQuantity[0]);
+                if (!menu.HasEnoughIngredientsForSandwich(quantity, orderedSandwich))
+                {
+                    Console.WriteLine("Désolé nous n'avons pas assez d'ingrédients pour faire un {0}", orderedSandwich.Name);
+                    continue;
+                }
+                AddSandwich(orderedSandwich);
+                menu.OrderSandwich(orderedSandwich);
             }
-            else
-            {
-                sandwiches.Add(menu.FindSandwich(splitQuantity[1]), int.Parse(splitQuantity[0]));
-            }
+        }
+    }
+
+    private void AddSandwich(Sandwich.Sandwich sandwich)
+    {
+        if (sandwiches.ContainsKey(sandwich))
+        {
+            sandwiches[sandwich] += 1;
+        }
+        else
+        {
+            sandwiches.Add(sandwich, 1);
         }
     }
 }

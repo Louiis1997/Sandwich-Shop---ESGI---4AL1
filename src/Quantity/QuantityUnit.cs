@@ -15,4 +15,16 @@ public class QuantityUnit
     {
         return Symbol;
     }
+    
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+
+        QuantityUnit other = obj as QuantityUnit;
+        if (other == null)
+            return false;
+
+        return this.UnitName == other.UnitName;
+    }
 }
