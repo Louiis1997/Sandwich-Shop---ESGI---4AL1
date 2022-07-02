@@ -40,13 +40,14 @@ namespace sandwichshop.Bill
         {
             foreach (KeyValuePair<Sandwich.Sandwich, int> sandwichWithQuantity in command.GetSandwiches())
             {
-                    this.sandwiches.Add(sandwichWithQuantity.Key, new Quantity.Quantity(sandwichWithQuantity.Value, Units.Get(QuantityUnitName.None)));
+                    sandwiches.Add(sandwichWithQuantity.Key, new Quantity.Quantity(sandwichWithQuantity.Value, Units.Get(QuantityUnitName.None)));
             }
         }
 
         public string Generate()
         {
-            string sandwichesInBill = "";
+            if (sandwiches.Count == 0) return "Votre commande est vide.";
+            var sandwichesInBill = "";
             foreach (var (sandwich, quantity) in sandwiches)
             {
                 sandwichesInBill += $"- {quantity} {sandwich.Name} à {sandwich.Price}\n";
@@ -66,7 +67,7 @@ namespace sandwichshop.Bill
             return
                 $"{factureText}\n" +
                 sandwichesInBill +
-                $"\nPrix total : {TotalPrice}{TotalPriceUnit.Symbol}";
+                $"\nPrix total : {TotalPrice}{TotalPriceUnit?.Symbol}";
         }
     }
 }

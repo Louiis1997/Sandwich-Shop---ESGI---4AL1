@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using sandwichshop.Sandwich;
+using sandwichshop.Exceptions;
 
 namespace sandwichshop.Command;
 
@@ -24,18 +24,32 @@ public class Command
         foreach (string sandwich in splitCommandItems)
         {
             var splitQuantityAndSandwich = sandwich.Split(" ", 2);
-            var orderedSandwich = menu.FindSandwich(splitQuantityAndSandwich[1]);
+            if (splitQuantityAndSandwich.Length != 2)
+            {
+                throw new ArgumentException("ATTENTION ! Votre commande doit être au format : <quantité1> <nom du sandwich>, <quantité2> <nom du sandwich>");
+            }
+            
             var quantity = int.Parse(splitQuantityAndSandwich[0]);
             
-            for (var i = 0; i < quantity; i++)
+            try
             {
-                if (!menu.HasEnoughIngredientsForSandwich(quantity, orderedSandwich))
+                var orderedSandwich = menu.FindSandwich(splitQuantityAndSandwich[1]);
+                for (var i = 0; i < quantity; i++)
                 {
-                    Console.WriteLine("Désolé nous n'avons pas assez d'ingrédients pour faire un {0}", orderedSandwich.Name);
-                    continue;
+                    if (!menu.HasEnoughIngredientsForSandwich(quantity, orderedSandwich))
+                    {
+                        Console.WriteLine("Désolé nous n'avons pas assez d'ingrédients pour faire un {0}", orderedSandwich.Name);
+                        continue;
+                    }
+                    AddSandwich(orderedSandwich);
+                    menu.OrderSandwich(orderedSandwich);
                 }
-                AddSandwich(orderedSandwich);
-                menu.OrderSandwich(orderedSandwich);
+            }
+            catch (SandwichNotFoundException e)
+            {
+                Console.WriteLine("===========================================================");
+                Console.WriteLine(e.ClientMessageForCli);
+                Console.WriteLine("===========================================================");
             }
         }
     }

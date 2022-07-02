@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using sandwichshop.Exceptions;
 
 namespace sandwichshop.Menu;
 using Sandwich;
@@ -42,14 +43,14 @@ public class Menu
         Sandwich? found = _availableSandwiches.Find(s => s.Name.ToLower() == name.ToLower());
         if (found == null)
         {
-            throw new Exception("Sandwich not found with name : " + name);
+            throw new SandwichNotFoundException(name);
         }
         return found;
     }
     
     public void DisplayMenu()
     {
-        Console.WriteLine("\n\n\n===================================");
+        Console.WriteLine("\n\n\n===========================================================");
         Console.WriteLine("Bienvenue dans le sandwich shop");
         Console.WriteLine("Veuillez choisir un sandwich: ");
         foreach (Sandwich sandwich in _availableSandwiches)
@@ -62,7 +63,7 @@ public class Menu
                                      (i == sandwich.Ingredients.Count - 1 ? "\n" : ", "));
             }
         }
-        Console.WriteLine("Entrez votre commande (exemple: '1 dieppois, 4 jambon beurre') : ");
+        Console.WriteLine("\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') : ");
     }
     
     public Sandwich OrderSandwich(Sandwich sandwich)

@@ -2,6 +2,7 @@ using System;
 using sandwichshop.Currencies;
 using sandwichshop.Bill;
 using sandwichshop.Command;
+using sandwichshop.Exceptions;
 using sandwichshop.Menu;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwich;
@@ -102,27 +103,43 @@ try {
         #region Retrieve client command (see 'Sujet initial projet.pdf)
 
         string userEntry = Console.ReadLine();
-        Console.WriteLine("\n==========================================================\n");
+        Console.WriteLine();
 
         #endregion
 
-        #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
+        try
+        {
+            #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
 
-        Command command = new Command();
-        command.ParseCommand(menu, userEntry);
+            Command command = new Command();
+            command.ParseCommand(menu, userEntry);
 
-        #endregion
+            #endregion
 
-        #region Display bill to client
-        Bill bill = new Bill(quantityUnits);
-        bill.AddUserCommand(command);
-        Console.WriteLine(bill.Generate());
-        #endregion
-        
+            #region Display bill to client
+
+            Bill bill = new Bill(quantityUnits);
+            bill.AddUserCommand(command);
+            Console.WriteLine(bill.Generate());
+            Console.WriteLine("==========================================================");
+
+            #endregion
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("==========================================================");
+            Console.WriteLine("Votre commande ne correspond pas au format attendu :");
+            Console.WriteLine(e);
+            Console.WriteLine("==========================================================\n");
+        }
+
         Console.WriteLine("Voulez-vous faire une autre commande ? O/n");
         string endProgramOrContinue = Console.ReadLine();
         if (endProgramOrContinue != null && endProgramOrContinue.ToLower() == "n")
         {
+            Console.WriteLine("====================================================");
+            Console.WriteLine("À la prochaine !");
+            Console.WriteLine("====================================================");
             break;
         }
     }
