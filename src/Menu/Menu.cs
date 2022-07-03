@@ -63,7 +63,6 @@ public class Menu
                                      (i == sandwich.Ingredients.Count - 1 ? "\n" : ", "));
             }
         }
-        Console.WriteLine("\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') : ");
     }
     
     public Sandwich OrderSandwich(Sandwich sandwich)

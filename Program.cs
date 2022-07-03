@@ -1,8 +1,8 @@
 using System;
 using sandwichshop.Currencies;
 using sandwichshop.Bill;
+using sandwichshop.CLI;
 using sandwichshop.Command;
-using sandwichshop.Exceptions;
 using sandwichshop.Menu;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwich;
@@ -97,14 +97,16 @@ try {
     while (true)
     {
         #region Display menu and instructions to client
-        menu.DisplayMenu();
+        ClientCli.DisplayMenu(menu);
         #endregion
 
         #region Retrieve client command (see 'Sujet initial projet.pdf)
-
-        string userEntry = Console.ReadLine();
-        Console.WriteLine();
-
+        string userEntry = ClientCli.RetrieveClientEntry();
+        if (userEntry == ClientCli.QUIT_STRING)
+        {
+            ClientCli.DisplaySeeYouNextTime();
+            break;
+        }
         #endregion
 
         try
@@ -120,35 +122,26 @@ try {
 
             Bill bill = new Bill(quantityUnits);
             bill.AddUserCommand(command);
-            Console.WriteLine(bill.Generate());
-            Console.WriteLine("==========================================================");
+            ClientCli.DisplayBill(bill);
+            ClientCli.DisplayDoubleLineSeparation();
 
             #endregion
         }
         catch (Exception e)
         {
-            Console.WriteLine("==========================================================");
-            Console.WriteLine("Votre commande ne correspond pas au format attendu :");
-            Console.WriteLine(e);
-            Console.WriteLine("==========================================================\n");
+            ClientCli.DisplayUnexpectedCommandFormatError(e);
         }
 
-        Console.WriteLine("Voulez-vous faire une autre commande ? O/n");
-        string endProgramOrContinue = Console.ReadLine();
-        if (endProgramOrContinue != null && endProgramOrContinue.ToLower() == "n")
+        if (!ClientCli.AskUserWantsToReorder())
         {
-            Console.WriteLine("====================================================");
-            Console.WriteLine("À la prochaine !");
-            Console.WriteLine("====================================================");
             break;
         }
     }
-} catch (Exception e) {
-    Console.WriteLine(e.Message);
+} catch (Exception e)
+{
+    ClientCli.DisplayException(e);
 }
 
 // TODO : Fixer les problèmes d'import qui fait qu'on doit écrire par exemple 'Sandwich.Sandwich'
-// TODO : Mieux gérer le fait qu'un sandwich n'existe pas
-// TODO : Refacto avec des design patterns
 // TODO : Revoir les responsabilités des classes
 // TODO : Voir s'il faut plus de services (Command readline, etc.)
