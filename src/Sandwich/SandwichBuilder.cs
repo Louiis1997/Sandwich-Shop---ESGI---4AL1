@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using sandwichshop.Currencies;
+using sandwichshop.Exceptions;
 
 namespace sandwichshop.Sandwich;
 
@@ -33,6 +34,9 @@ public class SandwichBuilder
     }
 
     public Sandwich Build() {
+        if (Name == "" || Price == null || Ingredients.Count == 0) {
+            throw new SandwichBuilderException("Invalid sandwich : missing name, price or ingredients");
+        }
         Sandwich sandwich = new Sandwich(Name, Ingredients, Price);
         Reset();
         return sandwich;
