@@ -13,11 +13,6 @@ public class Menu
     private AvailableIngredients _availableIngredients;
     private List<Sandwich> _availableSandwiches = new();
 
-    public Menu(AvailableIngredients availableIngredients)
-    {
-        _availableIngredients = availableIngredients;
-    }
-
     public Menu()
     {
         _availableIngredients = new AvailableIngredients();
@@ -28,11 +23,6 @@ public class Menu
         _availableIngredients = availableIngredients;
     }
 
-    public void SetMenuSandwiches(List<Sandwich>? sandwiches = null)
-    {
-        _availableSandwiches = sandwiches ?? new List<Sandwich>();
-    }
-    
     public void AddSandwich(Sandwich sandwich)
     {
         _availableSandwiches.Add(sandwich);
@@ -65,7 +55,7 @@ public class Menu
         }
     }
     
-    public Sandwich OrderSandwich(Sandwich sandwich)
+    public void OrderSandwich(Sandwich sandwich)
     {
         var ingredients = sandwich.Ingredients;
         foreach (var ingredient in ingredients)
@@ -75,18 +65,12 @@ public class Menu
             }
             _availableIngredients.Use(ingredient);
         }
-        return sandwich;
     }
 
-    public bool HasEnoughIngredientsForSandwich(int quantity, Sandwich orderedSandwich)
+    public bool HasEnoughIngredientsForSandwich(Sandwich orderedSandwich)
     {
         var ingredientsInSandwich = orderedSandwich.Ingredients;
         // For each ingredient in sandwich
         return ingredientsInSandwich.All(ingredient => _availableIngredients.ContainsEnough(ingredient));
-    }
-
-    public AvailableIngredients GetAvailableIngredients()
-    {
-        return _availableIngredients;
     }
 }

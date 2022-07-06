@@ -2,21 +2,21 @@ namespace sandwichshop.Menu;
 
 public class Singleton<T> where T : new()
 {
-    private static T instance;
-    private static object _lock = new object();
+    private static T _instance;
+    private static readonly object _lock = new();
     public static T Instance
     {
         get
         {
             lock (_lock)
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new T();
+                    _instance = new T();
                 }
             }
 
-            return instance;
+            return _instance;
         }
     }
 }

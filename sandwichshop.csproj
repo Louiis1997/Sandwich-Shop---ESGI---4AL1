@@ -5,5 +5,12 @@
         <TargetFramework>netcoreapp6.0</TargetFramework>
         <RootNamespace>sandwichshop</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="tests\Bill" />
+      <Folder Include="tests\Command" />
+      <Folder Include="tests\Menu" />
+      <Folder Include="tests\Sandwich" />
+    </ItemGroup>
   
 </Project>

@@ -36,7 +36,7 @@ public class Command
                 var orderedSandwich = menu.FindSandwich(splitQuantityAndSandwich[1]);
                 for (var i = 0; i < quantity; i++)
                 {
-                    if (!menu.HasEnoughIngredientsForSandwich(quantity, orderedSandwich))
+                    if (!menu.HasEnoughIngredientsForSandwich(orderedSandwich))
                     {
                         Console.WriteLine("Désolé nous n'avons pas assez d'ingrédients pour faire un {0}", orderedSandwich.Name);
                         continue;
