@@ -1,35 +1,35 @@
 using System;
+using sandwichshop.Billing;
+using sandwichshop.Shop;
 
 namespace sandwichshop.CLI;
 
-public class ClientCli
+public static class ClientCli
 {
-    public static string QUIT_STRING = "q";
+    public const string QuitString = "q";
 
-    public static void DisplayMenu(Menu.Menu menu)
+    public static void DisplayMenu(Menu menu)
     {
         menu.DisplayMenu();
     }
+
     public static string RetrieveClientEntry()
     {
         var userEntry = "";
         while (userEntry == "")
         {
-            Console.Write($"\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') (tapez '{QUIT_STRING}' puis 'entrée' pour quitter) : ");
+            Console.Write(
+                $"\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') (tapez '{QuitString}' puis 'entrée' pour quitter) : ");
             userEntry = Console.ReadLine();
-            if (userEntry != "")
-            {
-                return userEntry;    
-            }
-            
+            if (userEntry != "") return userEntry;
         }
 
         throw new Exception("Shouldn't have passed here");
     }
 
-    public static void DisplayBill(Bill.Bill bill)
+    public static void DisplayBill(Bill bill, string parsedCommandMessage)
     {
-        Console.WriteLine(bill.Generate());
+        Console.WriteLine(bill.Generate(parsedCommandMessage));
     }
 
     public static void DisplayUnexpectedCommandFormatError(Exception e)
@@ -49,8 +49,10 @@ public class ClientCli
             DisplaySeeYouNextTime();
             return false;
         }
+
         return true;
     }
+
     public static void DisplaySeeYouNextTime()
     {
         DisplayDoubleLineSeparation();
@@ -62,7 +64,7 @@ public class ClientCli
     {
         Console.WriteLine(e.Message);
     }
-    
+
     public static void DisplayDoubleLineSeparation(bool withNewLineAtEnd = false)
     {
         Console.WriteLine("====================================================" + (withNewLineAtEnd ? "\n" : ""));
