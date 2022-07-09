@@ -1,41 +1,41 @@
+namespace sandwichshop.infrastructure;
+
 using System;
 using System.Collections.Generic;
+using Sandwich;
 
-namespace sandwichshop.infrastructure
+public class InMemorySandwichRepository
 {
-    public class InMemorySandwichRepository
+    private readonly List<Sandwich> _data = new ();
+    public void Add(Sandwich sandwich)
     {
-        public List<sandwichshop.Sandwich.Sandwich> data = new List<sandwichshop.Sandwich.Sandwich>();
-        public void Add(sandwichshop.Sandwich.Sandwich sandwich)
-        {
-            data.Add(sandwich);
-        }
+        _data.Add(sandwich);
+    }
 
-        public void Delete(sandwichshop.Sandwich.Sandwich sandwich)
-        {
-            data.Remove(sandwich);
-        }
+    public void Delete(Sandwich sandwich)
+    {
+        _data.Remove(sandwich);
+    }
 
-        public sandwichshop.Sandwich.Sandwich FindByName(String name)
+    public Sandwich FindByName(String name)
+    {
+        Sandwich sandwich = null;
+        for (int i = 0; i < _data.Count; i++)
         {
-            sandwichshop.Sandwich.Sandwich sandwich = null;
-            for (int i = 0; i < data.Count; i++)
+            if (_data[i].Name == name)
             {
-                if (data[i].Name == name)
-                {
-                    sandwich = data[i];
-                }
+                sandwich = _data[i];
             }
-            if (sandwich == null)
-            {
-                Console.WriteLine("NoSuchSandwichName");
-            }
-            return sandwich;
         }
-
-        public List<sandwichshop.Sandwich.Sandwich> FindAll()
+        if (sandwich == null)
         {
-            return data;
+            Console.WriteLine("NoSuchSandwichName");
         }
+        return sandwich;
+    }
+
+    public List<Sandwich> FindAll()
+    {
+        return _data;
     }
 }

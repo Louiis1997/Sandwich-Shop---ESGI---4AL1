@@ -1,73 +1,72 @@
-﻿using System.Collections.Generic;
-using sandwichshop.Currencies;
-using sandwichshop.Quantity;
-using sandwichshop.Sandwich;
+﻿namespace sandwichshop.Bill;
 
-namespace sandwichshop.Bill
+using System.Collections.Generic;
+using Currencies;
+using Quantity;
+using Sandwich;
+
+public class Bill : IBilling
 {
-    public class Bill : IBilling
+    private readonly Dictionary<Sandwich, Quantity> _sandwiches;
+    private double _totalPrice = 0;
+    private Currency _totalPriceUnit;
+    private readonly QuantityUnits _units;
+
+    private string factureText =
+        " ______         _\n" +
+        "|  ____|       | |\n" +
+        "| |__ __ _  ___| |_ _   _ _ __ ___\n" +
+        "|  __/ _` |/ __| __| | | | '__/ _ \\\n" +
+        "| | | (_| | (__| |_| |_| | | |  __/\n" +
+        "|_|  \\__,_|\\___|\\__|\\__,_|_|  \\___|\n";
+
+
+    public Bill(QuantityUnits units)
     {
-        private Dictionary<sandwichshop.Sandwich.Sandwich, Quantity.Quantity> sandwiches;
-        private double TotalPrice = 0;
-        private Currency TotalPriceUnit;
-        private QuantityUnits Units;
+        _sandwiches = new Dictionary<Sandwich, Quantity>();
+        this._units = units;
+    }
 
-        private string factureText =
-            " ______         _\n" +
-            "|  ____|       | |\n" +
-            "| |__ __ _  ___| |_ _   _ _ __ ___\n" +
-            "|  __/ _` |/ __| __| | | | '__/ _ \\\n" +
-            "| | | (_| | (__| |_| |_| | | |  __/\n" +
-            "|_|  \\__,_|\\___|\\__|\\__,_|_|  \\___|\n";
+    public void AddSandwich(Sandwich sandwich, Quantity quantity)
+    {
+        if (sandwich == null) return;
+        var newQuantity = _sandwiches.ContainsKey(sandwich)
+            ? new Quantity(_sandwiches[sandwich].Value + quantity.Value, _sandwiches[sandwich].QuantityUnit)
+            : quantity;
+        _sandwiches.Add(sandwich, newQuantity);
+    }
 
-
-        public Bill(QuantityUnits Units)
+    public void AddUserCommand(Command.Command command)
+    {
+        foreach (KeyValuePair<Sandwich, int> sandwichWithQuantity in command.GetSandwiches())
         {
-            sandwiches = new Dictionary<sandwichshop.Sandwich.Sandwich, Quantity.Quantity>();
-            this.Units = Units;
+                _sandwiches.Add(sandwichWithQuantity.Key, new Quantity(sandwichWithQuantity.Value, _units.Get(QuantityUnitName.None)));
         }
+    }
 
-        public void AddSandwich(sandwichshop.Sandwich.Sandwich sandwich, Quantity.Quantity quantity)
+    public string Generate()
+    {
+        if (_sandwiches.Count == 0) return "Votre commande est vide.";
+        var sandwichesInBill = "";
+        foreach (var (sandwich, quantity) in _sandwiches)
         {
-            if (sandwich == null) return;
-            var newQuantity = sandwiches.ContainsKey(sandwich)
-                ? new Quantity.Quantity(sandwiches[sandwich].Value + quantity.Value, sandwiches[sandwich].QuantityUnit)
-                : quantity;
-            sandwiches.Add(sandwich, newQuantity);
-        }
-
-        public void AddUserCommand(Command.Command command)
-        {
-            foreach (KeyValuePair<Sandwich.Sandwich, int> sandwichWithQuantity in command.GetSandwiches())
+            sandwichesInBill += $"- {quantity} {sandwich.Name} à {sandwich.Price}\n";
+            foreach (Ingredient sandwichIngredient in sandwich.Ingredients)
             {
-                    sandwiches.Add(sandwichWithQuantity.Key, new Quantity.Quantity(sandwichWithQuantity.Value, Units.Get(QuantityUnitName.None)));
+                sandwichesInBill +=
+                    $"\t{sandwichIngredient.Quantity} {sandwichIngredient.Name}\n";
+            }
+            
+            _totalPrice += sandwich.Price.Value * quantity.Value;
+            if (_totalPriceUnit == null)
+            {
+                _totalPriceUnit = sandwich.Price.Unit;
             }
         }
 
-        public string Generate()
-        {
-            if (sandwiches.Count == 0) return "Votre commande est vide.";
-            var sandwichesInBill = "";
-            foreach (var (sandwich, quantity) in sandwiches)
-            {
-                sandwichesInBill += $"- {quantity} {sandwich.Name} à {sandwich.Price}\n";
-                foreach (Ingredient sandwichIngredient in sandwich.Ingredients)
-                {
-                    sandwichesInBill +=
-                        $"\t{sandwichIngredient.Quantity} {sandwichIngredient.Name}\n";
-                }
-                
-                TotalPrice += sandwich.Price.Value * quantity.Value;
-                if (TotalPriceUnit == null)
-                {
-                    TotalPriceUnit = sandwich.Price.Unit;
-                }
-            }
-
-            return
-                $"{factureText}\n" +
-                sandwichesInBill +
-                $"\nPrix total : {TotalPrice}{TotalPriceUnit?.Symbol}";
-        }
+        return
+            $"{factureText}\n" +
+            sandwichesInBill +
+            $"\nPrix total : {_totalPrice}{_totalPriceUnit?.Symbol}";
     }
 }

@@ -1,7 +1,7 @@
+namespace sandwichshop.Sandwich;
+
 using System;
 using System.Collections.Generic;
-
-namespace sandwichshop.Sandwich;
 
 public class Sandwich
 { 

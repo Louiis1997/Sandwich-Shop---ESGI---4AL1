@@ -1,23 +1,25 @@
+namespace sandwichshop.Command;
+
 using System;
 using System.Collections.Generic;
-using sandwichshop.Exceptions;
-
-namespace sandwichshop.Command;
+using Exceptions;
+using Sandwich;
+using Menu;
 
 public class Command
 {
-    private Dictionary<sandwichshop.Sandwich.Sandwich, int> sandwiches;
+    private Dictionary<Sandwich, int> sandwiches;
 
     public Command()
     {
-        this.sandwiches = new Dictionary<sandwichshop.Sandwich.Sandwich, int>();
+        this.sandwiches = new Dictionary<Sandwich, int>();
     }
 
-    public Dictionary<sandwichshop.Sandwich.Sandwich, int> GetSandwiches()
+    public Dictionary<Sandwich, int> GetSandwiches()
     {
         return sandwiches;
     }
-    public void ParseCommand(Menu.Menu menu, string userEntry)
+    public void ParseCommand(Menu menu, string userEntry)
     {
         userEntry = userEntry.Trim();
         string[] splitCommandItems = userEntry.Split(", ");
@@ -54,7 +56,7 @@ public class Command
         }
     }
 
-    private void AddSandwich(Sandwich.Sandwich sandwich)
+    private void AddSandwich(Sandwich sandwich)
     {
         if (sandwiches.ContainsKey(sandwich))
         {

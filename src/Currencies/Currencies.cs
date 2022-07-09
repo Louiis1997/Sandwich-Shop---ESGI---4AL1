@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 namespace sandwichshop.Currencies;
+
+using System.Collections.Generic;
 
 public class Currencies
 {

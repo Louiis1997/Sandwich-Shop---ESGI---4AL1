@@ -4,16 +4,16 @@ namespace sandwichshop.Sandwich
 {
     public class Ingredient
     {
-        public Quantity.Quantity Quantity;
-        public String Name;
+        public readonly Quantity.Quantity Quantity;
+        public readonly string Name;
 
-        public Ingredient(Quantity.Quantity quantity, String name)
+        public Ingredient(Quantity.Quantity quantity, string name)
         {
             Quantity = quantity;
             Name = name;
         }
         
-        public override String ToString()
+        public override string ToString()
         {
             return Quantity + " " + Name;
         }
@@ -30,6 +30,11 @@ namespace sandwichshop.Sandwich
             }
             Ingredient other = (Ingredient)obj;
             return this.Quantity.Equals(other.Quantity) && this.Name.Equals(other.Name);
+        }
+        
+        public override int GetHashCode()
+        {
+            return Quantity.GetHashCode() + Name.GetHashCode();
         }
     }
 }

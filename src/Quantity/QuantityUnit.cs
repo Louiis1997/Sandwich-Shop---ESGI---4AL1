@@ -2,18 +2,18 @@ namespace sandwichshop.Quantity;
 
 public class QuantityUnit
 {
-    public QuantityUnitName UnitName;
-    public string Symbol;
+    public readonly QuantityUnitName UnitName;
+    private readonly string _symbol;
 
     public QuantityUnit(QuantityUnitName unitName, string symbol)
     {
-        this.UnitName = unitName;
-        this.Symbol = symbol;
+        UnitName = unitName;
+        _symbol = symbol;
     }
 
     public override string ToString()
     {
-        return Symbol;
+        return _symbol;
     }
     
     public override bool Equals(object obj)
@@ -25,6 +25,11 @@ public class QuantityUnit
         if (other == null)
             return false;
 
-        return this.UnitName == other.UnitName;
+        return UnitName == other.UnitName;
+    }
+    
+    public override int GetHashCode()
+    {
+        return UnitName.GetHashCode();
     }
 }

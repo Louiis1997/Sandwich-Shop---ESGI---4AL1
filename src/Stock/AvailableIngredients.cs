@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using sandwichshop.Sandwich;
 
-namespace sandwichshop.Sandwich;
+namespace sandwichshop.Stocks;
 
 public class AvailableIngredients
 {
