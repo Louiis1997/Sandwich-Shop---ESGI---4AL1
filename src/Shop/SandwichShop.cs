@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using sandwichshop.Billing;
 using sandwichshop.CLI;
 using sandwichshop.Currencies;
@@ -16,15 +17,19 @@ public class SandwichShop
     private readonly Menu _menu;
     private readonly QuantityUnits _quantityUnits;
     private readonly ShopStock _shopStock;
-    private Currencies.Currencies _currencies;
+    private SandwichFactory _sandwichFactory;
+    private List<Ingredient> _ingredients;
+    private IngredientFactory _ingredientFactory;
 
-    private SandwichShop(Menu menu, ShopStock shopStock, Currencies.Currencies currencies,
-        QuantityUnits quantityUnits)
+    private SandwichShop(Menu menu, ShopStock shopStock,
+        QuantityUnits quantityUnits, SandwichFactory sandwichFactory, IngredientFactory ingredientFactory, List<Ingredient> ingredients)
     {
         _menu = menu;
         _shopStock = shopStock;
-        _currencies = currencies;
         _quantityUnits = quantityUnits;
+        _sandwichFactory = sandwichFactory;
+        _ingredients= ingredients;
+        _ingredientFactory = ingredientFactory;
     }
 
     public static SandwichShop Initialize()
@@ -50,52 +55,33 @@ public class SandwichShop
 
         #region Sandwiches
 
-        var bread = new Ingredient(new Quantity.Quantity(1, quantityUnits.Get(QuantityUnitName.None)), "pain");
-        var ham = new Ingredient(new Quantity.Quantity(1, quantityUnits.Get(QuantityUnitName.None)),
-            "tranche de jambon");
-        var butter = new Ingredient(new Quantity.Quantity(10, quantityUnits.Get(QuantityUnitName.Gram)), "de beurre");
+        IngredientFactory ingredientFactory = new IngredientFactory(quantityUnits);
+        var bread = ingredientFactory.CreateIngredient("pain");
+        var ham = ingredientFactory.CreateIngredient("jambon");
+        var butter = ingredientFactory.CreateIngredient("beurre");
+        var egg = ingredientFactory.CreateIngredient("oeuf");
+        var tomato = ingredientFactory.CreateIngredient("tomate");
+        var sliceOfChicken = ingredientFactory.CreateIngredient("poulet");
+        var mayonnaise = ingredientFactory.CreateIngredient("mayonnaise");
+        var salad = ingredientFactory.CreateIngredient("salade");
+        var thon = ingredientFactory.CreateIngredient("thon");
 
-        var egg = new Ingredient(new Quantity.Quantity(1, quantityUnits.Get(QuantityUnitName.None)), "oeuf");
-        var tomato = new Ingredient(new Quantity.Quantity(0.5, quantityUnits.Get(QuantityUnitName.None)), "tomate");
-        var sliceOfChicken = new Ingredient(new Quantity.Quantity(1, quantityUnits.Get(QuantityUnitName.None)),
-            "tranche de poulet");
-        var mayonnaise = new Ingredient(new Quantity.Quantity(10, quantityUnits.Get(QuantityUnitName.Gram)),
-            "de mayonnaise");
-        var salad = new Ingredient(new Quantity.Quantity(10, quantityUnits.Get(QuantityUnitName.Gram)), "de salade");
-
-        var thon = new Ingredient(new Quantity.Quantity(50, quantityUnits.Get(QuantityUnitName.Gram)), "de thon");
-
-        var sandwichBuilder = new SandwichBuilder();
-
-        var dieppois = sandwichBuilder
-            .WithName("Dieppois")
-            .WithPrice(new Price(4.50, currencies.Get(CurrencyName.Euro)))
-            .WithIngredient(bread)
-            .WithIngredient(thon)
-            .WithIngredient(tomato)
-            .WithIngredient(mayonnaise)
-            .WithIngredient(salad)
-            .Build();
-
-        var butterHamSandwich = sandwichBuilder
-            .WithName("Jambon beurre")
-            .WithPrice(new Price(3.50, currencies.Get(CurrencyName.Euro)))
-            .WithIngredient(bread)
-            .WithIngredient(ham)
-            .WithIngredient(butter)
-            .Build();
-
-        var chickenVegetablesSandwich = sandwichBuilder
-            .WithName("Poulet crudités")
-            .WithPrice(new Price(5, currencies.Get(CurrencyName.Euro)))
-            .WithIngredient(bread)
-            .WithIngredient(egg)
-            .WithIngredient(tomato)
-            .WithIngredient(sliceOfChicken)
-            .WithIngredient(mayonnaise)
-            .WithIngredient(salad)
-            .Build();
-
+        List<Ingredient> ingredients = new List<Ingredient>();
+        ingredients.Add(bread);
+        ingredients.Add(ham);
+        ingredients.Add(butter);
+        ingredients.Add(egg);
+        ingredients.Add(tomato);
+        ingredients.Add(sliceOfChicken);
+        ingredients.Add(mayonnaise);
+        ingredients.Add(salad);
+        ingredients.Add(thon);
+        
+        SandwichFactory sandwichFactory = new SandwichFactory(currencies, ingredients);
+        var dieppois = sandwichFactory.CreateSandwich("Dieppois");
+        var butterHamSandwich = sandwichFactory.CreateSandwich("Jambon beurre");
+        var chickenVegetablesSandwich = sandwichFactory.CreateSandwich("Poulet crudités");
+        
         #endregion
 
         #region Create Menu with all sandwiches and available ingredients
@@ -122,7 +108,7 @@ public class SandwichShop
 
         #endregion
 
-        return new SandwichShop(menu, shopStock, currencies, quantityUnits);
+        return new SandwichShop(menu, shopStock, quantityUnits, sandwichFactory, ingredientFactory, ingredients);
     }
 
     public void OpenForCommand()
@@ -161,9 +147,9 @@ public class SandwichShop
             try
             {
                 #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
-
+                
                 var command = new UserOrder();
-                var parsedCommandMessage = command.ParseCommand(_menu, _shopStock, userEntry);
+                var parsedCommandMessage = command.ParseCommand(_menu, _shopStock, _sandwichFactory, _ingredientFactory, _ingredients, userEntry);
 
                 #endregion
 

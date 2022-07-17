@@ -21,7 +21,7 @@ public class Ingredient
         if (obj == null) return false;
         if (obj.GetType() != GetType()) return false;
         var other = (Ingredient)obj;
-        return Quantity.Equals(other.Quantity) && Name.Equals(other.Name);
+        return Name.Equals(other.Name);
     }
 
     public override int GetHashCode()
