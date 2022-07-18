@@ -47,7 +47,7 @@ public class UserOrder
                     if (splitPersonalization.Length < 2 || splitPersonalization.Length % 2 != 0)
                     {
                         throw new ArgumentException(
-                            "/!\\ ATTENTION ! Votre commande doit être au format : <quantité1> <nom du sandwich> <signe '+' ou '-'> <ingredient>, <quantité2> <nom du sandwich> <signe '+' ou '-'> <ingredient>");
+                            "/!\\ ATTENTION ! Votre commande doit être au format : <quantité1> <nom du sandwich> : <signe '+' ou '-'> <ingredient>, <quantité2> <nom du sandwich> : <signe '+' ou '-'> <ingredient>");
 
                     }
                     else if (splitPersonalization.Length >= 2 && splitPersonalization.Length % 2 == 0)
@@ -114,7 +114,7 @@ public class UserOrder
             "+" => new AddCommand(sandwich, ingredient),
             "-" => new RemoveCommand(sandwich, ingredient),
             _ => throw new ArgumentException(
-                "/!\\ ATTENTION ! Votre commande doit être au format : <quantité1> <nom du sandwich> <signe '+' ou '-'> <ingredient>, <quantité2> <nom du sandwich> <signe '+' ou '-'> <ingredient>")
+                "/!\\ ATTENTION ! Votre commande doit être au format : <quantité1> <nom du sandwich> : <signe '+' ou '-'> <ingredient>, <quantité2> <nom du sandwich> : <signe '+' ou '-'> <ingredient>")
         };
         cmd.Do();
         _history.Push(cmd);

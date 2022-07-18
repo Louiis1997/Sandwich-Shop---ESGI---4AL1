@@ -88,15 +88,15 @@ public class SandwichShop
         #region Create Menu with all sandwiches and available ingredients
 
         var availableIngredients = new AvailableIngredients();
-        availableIngredients.Restock(new Quantity.Quantity(3, bread.Quantity.QuantityUnit), bread);
-        availableIngredients.Restock(new Quantity.Quantity(100, ham.Quantity.QuantityUnit), ham);
-        availableIngredients.Restock(new Quantity.Quantity(100, butter.Quantity.QuantityUnit), butter);
-        availableIngredients.Restock(new Quantity.Quantity(100, egg.Quantity.QuantityUnit), egg);
-        availableIngredients.Restock(new Quantity.Quantity(1, tomato.Quantity.QuantityUnit), tomato);
-        availableIngredients.Restock(new Quantity.Quantity(100, sliceOfChicken.Quantity.QuantityUnit), sliceOfChicken);
-        availableIngredients.Restock(new Quantity.Quantity(100, mayonnaise.Quantity.QuantityUnit), mayonnaise);
-        availableIngredients.Restock(new Quantity.Quantity(100, salad.Quantity.QuantityUnit), salad);
-        availableIngredients.Restock(new Quantity.Quantity(100, thon.Quantity.QuantityUnit), thon);
+        availableIngredients.Restock(new Quantity.Quantity(30, bread.Quantity.QuantityUnit), bread);
+        availableIngredients.Restock(new Quantity.Quantity(1000, ham.Quantity.QuantityUnit), ham);
+        availableIngredients.Restock(new Quantity.Quantity(1000, butter.Quantity.QuantityUnit), butter);
+        availableIngredients.Restock(new Quantity.Quantity(1000, egg.Quantity.QuantityUnit), egg);
+        availableIngredients.Restock(new Quantity.Quantity(10, tomato.Quantity.QuantityUnit), tomato);
+        availableIngredients.Restock(new Quantity.Quantity(1000, sliceOfChicken.Quantity.QuantityUnit), sliceOfChicken);
+        availableIngredients.Restock(new Quantity.Quantity(1000, mayonnaise.Quantity.QuantityUnit), mayonnaise);
+        availableIngredients.Restock(new Quantity.Quantity(1000, salad.Quantity.QuantityUnit), salad);
+        availableIngredients.Restock(new Quantity.Quantity(1000, thon.Quantity.QuantityUnit), thon);
 
         var shopStock = new ShopStock(availableIngredients);
 
@@ -114,22 +114,27 @@ public class SandwichShop
 
     public void OpenForCommand()
     {
-        var controlMethodResponse = "a";
         try
         {
-            switch (controlMethodResponse)
+            switch (ClientCli.SelectControlMethod())
             {
-                case "a":
+                case ClientCli.CliMethode:
                     HandleClientCommand(new CliControl());
                     break;
-                case "b":
+                case ClientCli.TextMethod:
                     HandleClientCommand(new TextControl());
                     break;
-                case "c":
+                case ClientCli.JsonMethod:
                     HandleClientCommand(new JsonControl());
                     break;
-                case "d":
+                case ClientCli.XmlMethod:
                     HandleClientCommand(new XmlControl());
+                    break;
+                case ClientCli.QuitString:
+                    ClientCli.DisplaySeeYouNextTime();
+                    break;
+                default:
+                    ClientCli.DisplayUnexpectedCommandMethod();
                     break;
             }
         }
@@ -142,5 +147,6 @@ public class SandwichShop
     private void HandleClientCommand(IControlMethod controlMethodStrategy)
     {
         controlMethodStrategy.Run(this);
+        
     }
 }

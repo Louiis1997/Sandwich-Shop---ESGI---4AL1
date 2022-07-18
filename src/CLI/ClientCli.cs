@@ -7,6 +7,10 @@ namespace sandwichshop.CLI;
 public static class ClientCli
 {
     public const string QuitString = "q";
+    public const string CliMethode = "cli";
+    public const string TextMethod = "txt";
+    public const string JsonMethod = "json";
+    public const string XmlMethod = "xml";
 
     public static void DisplayMenu(Menu menu)
     {
@@ -27,13 +31,14 @@ public static class ClientCli
         throw new Exception("Shouldn't have passed here");
     }
     
-    public static string RetrieveClientTextEntry()
+    public static string SelectControlMethod()
     {
         var userEntry = "";
         while (userEntry == "")
         {
-            Console.Write(
-                $"\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') (tapez '{QuitString}' puis 'entrée' pour quitter) : ");
+            Console.Write("\nComment voulez vous commander ?");
+            Console.Write("\ntapez 'json' pour du Json, 'xml' pour du XML, 'txt' pour du text ou 'cli' pour commander par ligne de commande.");
+            Console.Write($"\n(tapez '{QuitString}' puis 'entrée' pour quitter) : ");
             userEntry = Console.ReadLine();
             if (userEntry != "") return userEntry;
         }
@@ -79,6 +84,13 @@ public static class ClientCli
         DisplayDoubleLineSeparation();
         Console.WriteLine("Votre commande ne correspond pas au format attendu :");
         DisplayException(e);
+        DisplayDoubleLineSeparation(true);
+    }
+    
+    public static void DisplayUnexpectedCommandMethod()
+    {
+        DisplayDoubleLineSeparation();
+        Console.WriteLine("Cette méthode de commande n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
         DisplayDoubleLineSeparation(true);
     }
 
