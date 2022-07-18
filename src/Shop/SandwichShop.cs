@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using sandwichshop.Billing;
 using sandwichshop.CLI;
+using sandwichshop.ControlMethod;
 using sandwichshop.Currencies;
 using sandwichshop.Order;
 using sandwichshop.Quantity;
@@ -14,22 +15,22 @@ namespace sandwichshop.Shop;
 // Façade pattern
 public class SandwichShop
 {
-    private readonly Menu _menu;
-    private readonly QuantityUnits _quantityUnits;
-    private readonly ShopStock _shopStock;
-    private SandwichFactory _sandwichFactory;
-    private List<Ingredient> _ingredients;
-    private IngredientFactory _ingredientFactory;
+    public Menu Menu { get; }
+    public QuantityUnits QuantityUnits { get; }
+    public ShopStock ShopStock { get; }
+    public SandwichFactory SandwichFactory { get; }
+    public List<Ingredient> Ingredients { get; }
+    public IngredientFactory IngredientFactory { get; }
 
     private SandwichShop(Menu menu, ShopStock shopStock,
         QuantityUnits quantityUnits, SandwichFactory sandwichFactory, IngredientFactory ingredientFactory, List<Ingredient> ingredients)
     {
-        _menu = menu;
-        _shopStock = shopStock;
-        _quantityUnits = quantityUnits;
-        _sandwichFactory = sandwichFactory;
-        _ingredients= ingredients;
-        _ingredientFactory = ingredientFactory;
+        Menu = menu;
+        ShopStock = shopStock;
+        QuantityUnits = quantityUnits;
+        SandwichFactory = sandwichFactory;
+        Ingredients= ingredients;
+        IngredientFactory = ingredientFactory;
     }
 
     public static SandwichShop Initialize()
@@ -113,9 +114,24 @@ public class SandwichShop
 
     public void OpenForCommand()
     {
+        var controlMethodResponse = "a";
         try
         {
-            HandleClientCommand();
+            switch (controlMethodResponse)
+            {
+                case "a":
+                    HandleClientCommand(new CliControl());
+                    break;
+                case "b":
+                    HandleClientCommand(new TextControl());
+                    break;
+                case "c":
+                    HandleClientCommand(new JsonControl());
+                    break;
+                case "d":
+                    HandleClientCommand(new XmlControl());
+                    break;
+            }
         }
         catch (Exception e)
         {
@@ -123,51 +139,8 @@ public class SandwichShop
         }
     }
 
-    private void HandleClientCommand()
+    private void HandleClientCommand(IControlMethod controlMethodStrategy)
     {
-        while (true)
-        {
-            #region Display menu and instructions to client
-
-            ClientCli.DisplayMenu(_menu);
-
-            #endregion
-
-            #region Retrieve client command (see 'Sujet initial projet.pdf)
-
-            var userEntry = ClientCli.RetrieveClientEntry();
-            if (userEntry == ClientCli.QuitString)
-            {
-                ClientCli.DisplaySeeYouNextTime();
-                break;
-            }
-
-            #endregion
-
-            try
-            {
-                #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
-                
-                var command = new UserOrder();
-                var parsedCommandMessage = command.ParseCommand(_menu, _shopStock, _sandwichFactory, _ingredientFactory, _ingredients, userEntry);
-
-                #endregion
-
-                #region Display bill to client
-
-                var bill = new Bill(_quantityUnits);
-                bill.AddUserCommand(command);
-                ClientCli.DisplayBill(bill, parsedCommandMessage);
-                ClientCli.DisplayDoubleLineSeparation();
-
-                #endregion
-            }
-            catch (Exception e)
-            {
-                ClientCli.DisplayUnexpectedCommandFormatError(e);
-            }
-
-            if (!ClientCli.AskUserWantsToReorder()) break;
-        }
+        controlMethodStrategy.Run(this);
     }
 }

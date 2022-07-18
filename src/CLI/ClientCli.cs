@@ -13,7 +13,49 @@ public static class ClientCli
         menu.DisplayMenu();
     }
 
-    public static string RetrieveClientEntry()
+    public static string RetrieveClientCliEntry()
+    {
+        var userEntry = "";
+        while (userEntry == "")
+        {
+            Console.Write(
+                $"\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') (tapez '{QuitString}' puis 'entrée' pour quitter) : ");
+            userEntry = Console.ReadLine();
+            if (userEntry != "") return userEntry;
+        }
+
+        throw new Exception("Shouldn't have passed here");
+    }
+    
+    public static string RetrieveClientTextEntry()
+    {
+        var userEntry = "";
+        while (userEntry == "")
+        {
+            Console.Write(
+                $"\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') (tapez '{QuitString}' puis 'entrée' pour quitter) : ");
+            userEntry = Console.ReadLine();
+            if (userEntry != "") return userEntry;
+        }
+
+        throw new Exception("Shouldn't have passed here");
+    }
+    
+    public static string RetrieveClientJsonEntry()
+    {
+        var userEntry = "";
+        while (userEntry == "")
+        {
+            Console.Write(
+                $"\nEntrez votre commande (exemple: '1 dieppois, 4 jambon beurre') (tapez '{QuitString}' puis 'entrée' pour quitter) : ");
+            userEntry = Console.ReadLine();
+            if (userEntry != "") return userEntry;
+        }
+
+        throw new Exception("Shouldn't have passed here");
+    }
+    
+    public static string RetrieveClientXmlEntry()
     {
         var userEntry = "";
         while (userEntry == "")
