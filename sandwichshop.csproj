@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <Compile Remove="src\Command\Sand.cs" />
+      <Compile Remove="src\Command\Commands.cs" />
     </ItemGroup>
   
 </Project>

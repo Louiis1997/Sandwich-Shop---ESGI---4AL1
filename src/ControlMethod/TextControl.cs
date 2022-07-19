@@ -11,10 +11,10 @@ public class TextControl: IControlMethod
     public void Run(SandwichShop sandwichShop)
     {
         
-        #region Retrieve client command commands.txt()
+        #region Retrieve client all command from commandsFolder/commands.txt()
 
         //Read each line of the file into a string array. 
-        string commandPath = "../../../../commands.txt";
+        string commandPath = "../../../commandsFolder/commands.txt";
         string[] commands = System.IO.File.ReadAllLines(commandPath);
     
         #endregion

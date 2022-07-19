@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<CommandList>
+	<Command>
+		<Sandwich>
+			<Quantity>1</Quantity>
+			<Name>Jambon beurre</Name>
+		</Sandwich>
+		<Sandwich>
+			<Quantity>2</Quantity>
+			<Name>Poulet crudités</Name>
+		</Sandwich>
+		<Sandwich>
+			<Quantity>2</Quantity>
+			<Name>Dieppois</Name>
+		</Sandwich>
+	</Command>
+	<Command>
+		<Sandwich>
+			<Quantity>3</Quantity>
+			<Name>Poulet crudités</Name>
+		</Sandwich>
+	</Command>
+	<Command>
+		<Sandwich>
+			<Quantity>1</Quantity>
+			<Name>Dieppois</Name>
+		</Sandwich>
+		<Sandwich>
+			<Quantity>1</Quantity>
+			<Name>Dieppois</Name>
+		</Sandwich>
+	</Command>
+</CommandList>

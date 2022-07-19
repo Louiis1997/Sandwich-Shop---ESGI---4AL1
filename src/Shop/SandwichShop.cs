@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using sandwichshop.Billing;
 using sandwichshop.CLI;
 using sandwichshop.ControlMethod;
 using sandwichshop.Currencies;
-using sandwichshop.Order;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwiches;
 using sandwichshop.Stock;
@@ -114,39 +112,41 @@ public class SandwichShop
 
     public void OpenForCommand()
     {
-        try
+        do
         {
-            switch (ClientCli.SelectControlMethod())
+            try
             {
-                case ClientCli.CliMethode:
-                    HandleClientCommand(new CliControl());
-                    break;
-                case ClientCli.TextMethod:
-                    HandleClientCommand(new TextControl());
-                    break;
-                case ClientCli.JsonMethod:
-                    HandleClientCommand(new JsonControl());
-                    break;
-                case ClientCli.XmlMethod:
-                    HandleClientCommand(new XmlControl());
-                    break;
-                case ClientCli.QuitString:
-                    ClientCli.DisplaySeeYouNextTime();
-                    break;
-                default:
-                    ClientCli.DisplayUnexpectedCommandMethod();
-                    break;
+                switch (ClientCli.SelectControlMethod())
+                {
+                    case ClientCli.CliMethode:
+                        HandleClientCommand(new CliControl());
+                        break;
+                    case ClientCli.TextMethod:
+                        HandleClientCommand(new TextControl());
+                        break;
+                    case ClientCli.JsonMethod:
+                        HandleClientCommand(new JsonControl());
+                        break;
+                    case ClientCli.XmlMethod:
+                        HandleClientCommand(new XmlControl());
+                        break;
+                    case ClientCli.QuitString:
+                        ClientCli.DisplaySeeYouNextTime();
+                        break;
+                    default:
+                        ClientCli.DisplayUnexpectedCommandMethod();
+                        break;
+                }
             }
-        }
-        catch (Exception e)
-        {
-            ClientCli.DisplayException(e);
-        }
+            catch (Exception e)
+            {
+                ClientCli.DisplayException(e);
+            }
+        } while (ClientCli.AskUserWantsToReorder());
     }
 
     private void HandleClientCommand(IControlMethod controlMethodStrategy)
     {
         controlMethodStrategy.Run(this);
-        
     }
 }
