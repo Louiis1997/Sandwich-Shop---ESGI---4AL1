@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -23,10 +25,11 @@ public class XmlConverter<T> where T : new()
 
     }
 
-    public string Serialize(T items)
+    public string Serialize(T items, string nameFile)
     {
         StringWriter stringWriter = new StringWriter();
         _serializer.Serialize(stringWriter, items );
+        File.WriteAllText(nameFile, stringWriter.ToString(), Encoding.ASCII);
         return stringWriter.ToString();
     }
 }

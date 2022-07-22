@@ -1,13 +1,22 @@
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace sandwichshop.Command;
 
 public class JsonConverter<T>
 {
-    public static string Serialize(T items)
+    private static readonly JsonSerializerOptions _options = 
+        new()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = true,
+        };
+    public static string Serialize(T items, string nameFile)
     {
-        return JsonSerializer.Serialize(items);
+        string jsonString = JsonSerializer.Serialize(items, _options);
+        File.WriteAllText(nameFile, jsonString);
+        return jsonString;
     }
     
     public static T Deserialize(string jsonPath)
