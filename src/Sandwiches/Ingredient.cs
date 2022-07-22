@@ -2,8 +2,9 @@ namespace sandwichshop.Sandwiches;
 
 public class Ingredient
 {
-    public readonly string Name;
-    public readonly Quantity.Quantity Quantity;
+    
+    public string Name { get; set; }
+    public Quantity.Quantity Quantity { get; set; }
 
     public Ingredient(Quantity.Quantity quantity, string name)
     {

@@ -46,6 +46,21 @@ public static class ClientCli
         throw new Exception("Shouldn't have passed here");
     }
     
+    public static string SelectBillingMethod()
+    {
+        var userEntry = "";
+        while (userEntry == "")
+        {
+            Console.Write("\nComment voulez vous recevoir votre facture ?");
+            Console.Write("\ntapez 'json', 'xml', 'txt' pour avoir la facture dans un fichier ou 'cli' pour l'afficher.");
+            Console.Write($"\n(tapez '{QuitString}' puis 'entrée' pour ne pas avoir la facture) : ");
+            userEntry = Console.ReadLine();
+            if (userEntry != "") return userEntry;
+        }
+
+        throw new Exception("Shouldn't have passed here");
+    }
+    
     public static string RetrieveClientJsonEntry()
     {
         var userEntry = "";
@@ -87,10 +102,25 @@ public static class ClientCli
         DisplayDoubleLineSeparation(true);
     }
     
+    public static void DisplayBillIsCreated(string fileName)
+    {
+        DisplayDoubleLineSeparation();
+        Console.WriteLine("La facture a bien était enregistré, vous la retrouverez ici : " + fileName);
+        DisplayDoubleLineSeparation(true);
+    }
+    
     public static void DisplayUnexpectedCommandMethod()
     {
         DisplayDoubleLineSeparation();
         Console.WriteLine("Cette méthode de commande n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
+        DisplayDoubleLineSeparation(true);
+    }
+    
+    
+    public static void DisplayUnexpectedBillingMethod()
+    {
+        DisplayDoubleLineSeparation();
+        Console.WriteLine("Cette méthode de facturation n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
         DisplayDoubleLineSeparation(true);
     }
 

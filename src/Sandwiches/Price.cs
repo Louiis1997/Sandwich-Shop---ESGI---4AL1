@@ -4,8 +4,8 @@ namespace sandwichshop.Sandwiches;
 
 public class Price
 {
-    public Currency Unit;
-    public double Value;
+    public Currency Unit { get; set; }
+    public double Value { get; set; }
 
     public Price(double value, Currency unit)
     {

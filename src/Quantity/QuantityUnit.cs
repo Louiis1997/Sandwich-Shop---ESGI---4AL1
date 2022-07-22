@@ -3,17 +3,17 @@ namespace sandwichshop.Quantity;
 public class QuantityUnit
 {
     public readonly QuantityUnitName UnitName;
-    private readonly string _symbol;
+    public  string Symbol { get; set; }
 
     public QuantityUnit(QuantityUnitName unitName, string symbol)
     {
         UnitName = unitName;
-        _symbol = symbol;
+        Symbol = symbol;
     }
 
     public override string ToString()
     {
-        return _symbol;
+        return Symbol;
     }
     
     public override bool Equals(object obj)

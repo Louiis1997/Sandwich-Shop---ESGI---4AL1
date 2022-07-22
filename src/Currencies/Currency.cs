@@ -1,9 +1,11 @@
+using System.Xml.Serialization;
+
 namespace sandwichshop.Currencies;
 
 public class Currency
 {
     public CurrencyName Name;
-    public string Symbol;
+    public string Symbol { get; set; }
     
     public Currency(CurrencyName name, string symbol)
     {

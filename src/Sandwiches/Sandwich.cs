@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace sandwichshop.Sandwiches;
-
 public class Sandwich
 {
-    public List<Ingredient> Ingredients;
-    public readonly string Name;
-    public Price Price;
+    public string Name { get; set; }
+    public List<Ingredient> Ingredients { get; set; }
+    public Price Price { get; set; }
 
     public Sandwich(string name, List<Ingredient> ingredients, Price price)
     {

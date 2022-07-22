@@ -4,11 +4,11 @@ using sandwichshop.CLI;
 using sandwichshop.Order;
 using sandwichshop.Shop;
 
-namespace sandwichshop.ControlMethod;
+namespace sandwichshop.OrderMethod;
 
-public class CliControl: IControlMethod
+public class CliOrder: IOrderMethod
 {
-    public void Run(SandwichShop sandwichShop)
+    public override void Order(SandwichShop sandwichShop)
     {
         #region Display menu and instructions to client
 
@@ -35,8 +35,7 @@ public class CliControl: IControlMethod
 
             var bill = new Bill(sandwichShop.QuantityUnits);
             bill.AddUserCommand(command);
-            ClientCli.DisplayBill(bill, parsedCommandMessage);
-            ClientCli.DisplayDoubleLineSeparation();
+            SelectBillingMethod(bill, parsedCommandMessage);
 
             #endregion
         }

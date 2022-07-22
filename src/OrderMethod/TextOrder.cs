@@ -4,11 +4,11 @@ using sandwichshop.CLI;
 using sandwichshop.Order;
 using sandwichshop.Shop;
 
-namespace sandwichshop.ControlMethod;
+namespace sandwichshop.OrderMethod;
 
-public class TextControl: IControlMethod
+public class TextOrder: IOrderMethod
 {
-    public void Run(SandwichShop sandwichShop)
+    public override void Order(SandwichShop sandwichShop)
     {
         
         #region Retrieve client all command from commandsFolder/commands.txt()
@@ -34,8 +34,7 @@ public class TextControl: IControlMethod
 
                 var bill = new Bill(sandwichShop.QuantityUnits);
                 bill.AddUserCommand(command);
-                ClientCli.DisplayBill(bill, parsedCommandMessage);
-                ClientCli.DisplayDoubleLineSeparation();
+                SelectBillingMethod(bill, parsedCommandMessage);
 
                 #endregion
             }
@@ -44,6 +43,5 @@ public class TextControl: IControlMethod
                 ClientCli.DisplayUnexpectedCommandFormatError(e);
             }
         }
-        ClientCli.DisplaySeeYouNextTime();
     }
 }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using sandwichshop.CLI;
-using sandwichshop.ControlMethod;
 using sandwichshop.Currencies;
+using sandwichshop.OrderMethod;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwiches;
 using sandwichshop.Stock;
@@ -119,16 +119,16 @@ public class SandwichShop
                 switch (ClientCli.SelectControlMethod())
                 {
                     case ClientCli.CliMethode:
-                        HandleClientCommand(new CliControl());
+                        HandleClientCommand(new CliOrder());
                         break;
                     case ClientCli.TextMethod:
-                        HandleClientCommand(new TextControl());
+                        HandleClientCommand(new TextOrder());
                         break;
                     case ClientCli.JsonMethod:
-                        HandleClientCommand(new JsonControl());
+                        HandleClientCommand(new JsonOrder());
                         break;
                     case ClientCli.XmlMethod:
-                        HandleClientCommand(new XmlControl());
+                        HandleClientCommand(new XmlOrder());
                         break;
                     case ClientCli.QuitString:
                         ClientCli.DisplaySeeYouNextTime();
@@ -145,8 +145,8 @@ public class SandwichShop
         } while (ClientCli.AskUserWantsToReorder());
     }
 
-    private void HandleClientCommand(IControlMethod controlMethodStrategy)
+    private void HandleClientCommand(IOrderMethod orderMethodStrategy)
     {
-        controlMethodStrategy.Run(this);
+        orderMethodStrategy.Order(this);
     }
 }
