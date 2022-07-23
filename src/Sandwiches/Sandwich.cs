@@ -22,7 +22,7 @@ public class Sandwich
     }
 
     public string Name { get; set; }
-    public List<Ingredient> Ingredients { get; set; }
+    public List<Ingredient> Ingredients { get; }
     public Price Price { get; set; }
 
     // to string
@@ -42,5 +42,23 @@ public class Sandwich
             Ingredients.Remove(ingredient);
         else
             throw new ArgumentException("Le sandwich ne contient pas cet ingredient");
+    }
+
+    // Override equal
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+
+        if (obj.GetType() != GetType())
+            return false;
+
+        var sandwich = (Sandwich)obj;
+        return Name == sandwich.Name;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, Ingredients, Price);
     }
 }
