@@ -3,17 +3,15 @@ using sandwichshop.Quantity;
 using sandwichshop.Sandwiches;
 using Xunit;
 
-namespace sandwichshop.tests;
+namespace sandwichshop.tests.Sandwiches;
 
 public class IngredientCreationTest
 {
     private static Ingredient bread = new (new Quantity.Quantity(1, new QuantityUnit(QuantityUnitName.None, "")),
         "pain");
-    private static Ingredient tuna = new (new Quantity.Quantity(50, new QuantityUnit(QuantityUnitName.Gram, "g")),
-        "de thon");
-
+    
     [Fact]
-    public void Creer_une_classe_IngredientFactory_avec_une_methode_Create()
+    public void IngredientFactory_avec_une_methode_Create()
     {
         #region Quantity Units
         var quantityUnits = new QuantityUnits();

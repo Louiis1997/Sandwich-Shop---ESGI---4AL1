@@ -6,7 +6,7 @@ using sandwichshop.Quantity;
 using sandwichshop.Sandwiches;
 using Xunit;
 
-namespace sandwichshop.tests;
+namespace sandwichshop.tests.Sandwiches;
 
 public class SandwichCreationTest
 {
@@ -27,7 +27,7 @@ public class SandwichCreationTest
     private Sandwich dieppois = new (name, ingredients, price);
     
     [Fact]
-    public void Creer_une_classe_SandwichBuilder()
+    public void SandwichBuilder()
     {
         SandwichBuilder sandwichBuilder = new SandwichBuilder();
             
@@ -35,7 +35,7 @@ public class SandwichCreationTest
     }
 
     [Fact]
-    public void Creer_une_methode_pour_stocker_le_nom_d_un_sandwich()
+    public void Methode_pour_stocker_le_nom_d_un_sandwich()
     {
         SandwichBuilder sandwichBuilder = new SandwichBuilder();
             
@@ -82,7 +82,7 @@ public class SandwichCreationTest
     }
     
     [Fact]
-    public void Creer_une_classe_SandwichFactory_avec_une_methode_Create()
+    public void SandwichFactory_avec_une_methode_Create()
     {
         #region Currencies
         var currencies = new Currencies.Currencies();
