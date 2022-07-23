@@ -7,7 +7,7 @@ namespace sandwichshop.CLI;
 public static class ClientCli
 {
     public const string QuitString = "q";
-    public const string CliMethode = "cli";
+    public const string CliMethod = "cli";
     public const string TextMethod = "txt";
     public const string JsonMethod = "json";
     public const string XmlMethod = "xml";
@@ -30,14 +30,15 @@ public static class ClientCli
 
         throw new Exception("Shouldn't have passed here");
     }
-    
+
     public static string SelectControlMethod()
     {
         var userEntry = "";
         while (userEntry == "")
         {
             Console.Write("\nComment voulez vous commander ?");
-            Console.Write("\ntapez 'json' pour du Json, 'xml' pour du XML, 'txt' pour du text ou 'cli' pour commander par ligne de commande.");
+            Console.Write(
+                "\ntapez 'json' pour du Json, 'xml' pour du XML, 'txt' pour du text ou 'cli' pour commander par ligne de commande.");
             Console.Write($"\n(tapez '{QuitString}' puis 'entrée' pour quitter) : ");
             userEntry = Console.ReadLine();
             if (userEntry != "") return userEntry;
@@ -45,14 +46,15 @@ public static class ClientCli
 
         throw new Exception("Shouldn't have passed here");
     }
-    
+
     public static string SelectBillingMethod()
     {
         var userEntry = "";
         while (userEntry == "")
         {
             Console.Write("\nComment voulez vous recevoir votre facture ?");
-            Console.Write("\ntapez 'json', 'xml', 'txt' pour avoir la facture dans un fichier ou 'cli' pour l'afficher.");
+            Console.Write(
+                "\ntapez 'json', 'xml', 'txt' pour avoir la facture dans un fichier ou 'cli' pour l'afficher.");
             Console.Write($"\n(tapez '{QuitString}' puis 'entrée' pour ne pas avoir la facture) : ");
             userEntry = Console.ReadLine();
             if (userEntry != "") return userEntry;
@@ -60,7 +62,7 @@ public static class ClientCli
 
         throw new Exception("Shouldn't have passed here");
     }
-    
+
     public static string RetrieveClientJsonEntry()
     {
         var userEntry = "";
@@ -74,7 +76,7 @@ public static class ClientCli
 
         throw new Exception("Shouldn't have passed here");
     }
-    
+
     public static string RetrieveClientXmlEntry()
     {
         var userEntry = "";
@@ -101,26 +103,27 @@ public static class ClientCli
         DisplayException(e);
         DisplayDoubleLineSeparation(true);
     }
-    
+
     public static void DisplayBillIsCreated(string fileName)
     {
         DisplayDoubleLineSeparation();
         Console.WriteLine("La facture a bien était enregistré, vous la retrouverez ici : " + fileName);
         DisplayDoubleLineSeparation(true);
     }
-    
+
     public static void DisplayUnexpectedCommandMethod()
     {
         DisplayDoubleLineSeparation();
         Console.WriteLine("Cette méthode de commande n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
         DisplayDoubleLineSeparation(true);
     }
-    
-    
+
+
     public static void DisplayUnexpectedBillingMethod()
     {
         DisplayDoubleLineSeparation();
-        Console.WriteLine("Cette méthode de facturation n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
+        Console.WriteLine(
+            "Cette méthode de facturation n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
         DisplayDoubleLineSeparation(true);
     }
 
@@ -152,5 +155,10 @@ public static class ClientCli
     public static void DisplayDoubleLineSeparation(bool withNewLineAtEnd = false)
     {
         Console.WriteLine("====================================================" + (withNewLineAtEnd ? "\n" : ""));
+    }
+
+    public static void DisplayString(string message)
+    {
+        Console.WriteLine(message);
     }
 }

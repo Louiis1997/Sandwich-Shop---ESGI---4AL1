@@ -16,7 +16,7 @@ public abstract class IOrderMethod
         {
             switch (ClientCli.SelectBillingMethod())
             {
-                case ClientCli.CliMethode:
+                case ClientCli.CliMethod:
                     billingMethod = new CliBill();
                     break;
                 case ClientCli.TextMethod:
@@ -39,9 +39,7 @@ public abstract class IOrderMethod
         }
         catch (Exception e)
         {
-            ClientCli.DisplayException(e);
-            // Print stacktrace
-            Console.WriteLine(e.StackTrace);
+            ClientCli.DisplayString("Une erreur s'est produite lors de la sélection de la méthode de facturation");
         }
     }
 }

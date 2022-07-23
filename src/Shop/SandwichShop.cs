@@ -118,7 +118,7 @@ public class SandwichShop
             {
                 switch (ClientCli.SelectControlMethod())
                 {
-                    case ClientCli.CliMethode:
+                    case ClientCli.CliMethod:
                         HandleClientCommand(new CliOrder());
                         break;
                     case ClientCli.TextMethod:
