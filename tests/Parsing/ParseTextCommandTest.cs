@@ -8,7 +8,7 @@ using Xunit;
 
 namespace sandwichshop.tests.Parsing.CommandParsingInText;
 
-public class ParseTextCommand
+public class ParseTextCommandTest
 {
     private readonly SandwichShop _sandwichShop = SandwichShop.Initialize();
 

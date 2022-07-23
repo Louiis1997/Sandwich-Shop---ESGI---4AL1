@@ -28,7 +28,7 @@ public class Sandwich
     // to string
     public override string ToString()
     {
-        return $"{Name}";
+        return $"{Name} - {Price} - Ingredients : {string.Join(", ", Ingredients)}";
     }
 
     public void Add(Ingredient ingredient)
@@ -43,7 +43,7 @@ public class Sandwich
         else
             throw new ArgumentException("Le sandwich ne contient pas cet ingredient");
     }
-    
+
     public override bool Equals(object obj)
     {
         if (obj == null)

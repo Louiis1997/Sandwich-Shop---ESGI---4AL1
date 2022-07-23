@@ -30,11 +30,7 @@ public class QuantityUnit
 
     public override bool Equals(object obj)
     {
-        if (obj == null)
-            return false;
-
-        var other = obj as QuantityUnit;
-        if (other == null)
+        if (obj is not QuantityUnit other)
             return false;
 
         return UnitName == other.UnitName;

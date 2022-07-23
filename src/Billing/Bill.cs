@@ -9,7 +9,6 @@ namespace sandwichshop.Billing;
 
 public class Bill : IBilling
 {
-    public Dictionary<Sandwich, Quantity.Quantity> Sandwiches { get; }
     private readonly QuantityUnits _units;
 
     private readonly string factureText =
@@ -21,7 +20,6 @@ public class Bill : IBilling
         "| | | (_| | (__| |_| |_| | | |  __/\n" +
         "|_|  \\__,_|\\___|\\__|\\__,_|_|  \\___|\n";
 
-    public double TotalPrice { get; set; }
     private Currency _totalPriceUnit;
 
     public Bill(QuantityUnits units)
@@ -29,6 +27,10 @@ public class Bill : IBilling
         Sandwiches = new Dictionary<Sandwich, Quantity.Quantity>();
         _units = units;
     }
+
+    public Dictionary<Sandwich, Quantity.Quantity> Sandwiches { get; }
+
+    public double TotalPrice { get; set; }
 
     public string Generate(string parsedCommandMessage = "")
     {
