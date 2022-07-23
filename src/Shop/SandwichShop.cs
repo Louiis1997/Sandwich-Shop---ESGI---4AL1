@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using sandwichshop.CLI;
 using sandwichshop.Currencies;
+using sandwichshop.Order;
 using sandwichshop.OrderMethod;
 using sandwichshop.Quantity;
 using sandwichshop.Sandwiches;
@@ -147,6 +148,32 @@ public class SandwichShop
 
     private void HandleClientCommand(IOrderMethod orderMethodStrategy)
     {
-        orderMethodStrategy.Order(this);
+        List<string> commands = new List<string>();
+        try
+        { 
+            commands = orderMethodStrategy.Order(this);
+        }
+        catch (Exception e)
+        {
+            ClientCli.DisplayUnexpectedCommandFormatError(e);
+        }
+        foreach (var userEntry in commands)
+        {
+            #region Parse client entry (command) to list of sandwich (create Command model ?) + Handle parsing error from client entry
+                
+                var userOrder = new UserOrder();
+                var parsedCommandMessage = userOrder.ParseCommand(this.Menu, this.ShopStock, this.SandwichFactory, this.IngredientFactory, this.Ingredients, userEntry);
+
+            #endregion
+            
+            try
+            {
+                orderMethodStrategy.Bill(this, userOrder, parsedCommandMessage);
+            }
+            catch (Exception e)
+            {
+                ClientCli.DisplayErrorDuringBillGeneration(e);
+            }
+        }
     }
 }

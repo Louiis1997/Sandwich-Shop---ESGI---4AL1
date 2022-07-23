@@ -1,13 +1,26 @@
 using System;
+using System.Collections.Generic;
 using sandwichshop.Billing;
 using sandwichshop.CLI;
+using sandwichshop.Order;
 using sandwichshop.Shop;
 
 namespace sandwichshop.OrderMethod;
 
 public abstract class IOrderMethod
 {
-    public abstract void Order(SandwichShop sandwichShop);
+    public abstract List<string> Order(SandwichShop sandwichShop);
+
+    public void Bill(SandwichShop sandwichShop, UserOrder userOrder, string parsedCommandMessage)
+    {
+        #region Display bill to client
+
+        var bill = new Bill(sandwichShop.QuantityUnits);
+        bill.AddUserCommand(userOrder);
+        SelectBillingMethod(bill, parsedCommandMessage);
+        
+        #endregion
+    }
 
     public void SelectBillingMethod(Bill bill, string parsedCommandMessage)
     {

@@ -126,6 +126,14 @@ public static class ClientCli
             "Cette méthode de facturation n'existe pas. Veillez choisir parmi ('cli','txt','json','xml')");
         DisplayDoubleLineSeparation(true);
     }
+    
+    public static void DisplayErrorDuringBillGeneration(Exception e)
+    {
+        DisplayDoubleLineSeparation();
+        Console.WriteLine("Une erreur est survenu pendant la génération de facture :");
+        DisplayException(e);
+        DisplayDoubleLineSeparation(true);
+    }
 
     public static bool AskUserWantsToReorder()
     {

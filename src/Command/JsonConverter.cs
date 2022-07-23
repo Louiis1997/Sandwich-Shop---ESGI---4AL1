@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,7 +13,8 @@ public class JsonConverter<T>
         new()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = true
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
 
     public static string Serialize(T items, string nameFile)
@@ -23,7 +26,7 @@ public class JsonConverter<T>
                                       throw new InvalidOperationException("Path directory is null for path: " + path));
 
         var jsonString = JsonSerializer.Serialize(items, _options);
-        File.WriteAllText(nameFile, jsonString);
+        File.WriteAllText(nameFile, jsonString, Encoding.UTF8);
         return jsonString;
     }
 
