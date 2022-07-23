@@ -1,16 +1,25 @@
+using System;
+using System.Xml.Serialization;
+
 namespace sandwichshop.Sandwiches;
 
+[Serializable]
+[XmlInclude(typeof(Quantity.Quantity))]
 public class Ingredient
 {
-    
-    public string Name { get; set; }
-    public Quantity.Quantity Quantity { get; set; }
-
     public Ingredient(Quantity.Quantity quantity, string name)
     {
         Quantity = quantity;
         Name = name;
     }
+
+    // Default constructor required for XML serialization
+    public Ingredient()
+    {
+    }
+
+    public string Name { get; set; }
+    public Quantity.Quantity Quantity { get; set; }
 
     public override string ToString()
     {

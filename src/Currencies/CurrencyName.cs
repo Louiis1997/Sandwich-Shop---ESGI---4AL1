@@ -1,10 +1,9 @@
-namespace sandwichshop.Currencies
+namespace sandwichshop.Currencies;
+
+public enum CurrencyName
 {
-    public enum CurrencyName
-    {
-        Euro,
-        Dollar,
-        Pound,
-        Yen
-    }
+    Euro,
+    Dollar,
+    Pound,
+    Yen
 }
