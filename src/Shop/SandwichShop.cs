@@ -63,7 +63,7 @@ public class SandwichShop
         var sliceOfChicken = ingredientFactory.CreateIngredient("poulet");
         var mayonnaise = ingredientFactory.CreateIngredient("mayonnaise");
         var salad = ingredientFactory.CreateIngredient("salade");
-        var thon = ingredientFactory.CreateIngredient("thon");
+        var tuna = ingredientFactory.CreateIngredient("thon");
 
         List<Ingredient> ingredients = new List<Ingredient>();
         ingredients.Add(bread);
@@ -74,7 +74,7 @@ public class SandwichShop
         ingredients.Add(sliceOfChicken);
         ingredients.Add(mayonnaise);
         ingredients.Add(salad);
-        ingredients.Add(thon);
+        ingredients.Add(tuna);
         
         SandwichFactory sandwichFactory = new SandwichFactory(currencies, ingredients);
         var dieppois = sandwichFactory.CreateSandwich("Dieppois");
@@ -94,7 +94,7 @@ public class SandwichShop
         availableIngredients.Restock(new Quantity.Quantity(1000, sliceOfChicken.Quantity.QuantityUnit), sliceOfChicken);
         availableIngredients.Restock(new Quantity.Quantity(1000, mayonnaise.Quantity.QuantityUnit), mayonnaise);
         availableIngredients.Restock(new Quantity.Quantity(1000, salad.Quantity.QuantityUnit), salad);
-        availableIngredients.Restock(new Quantity.Quantity(1000, thon.Quantity.QuantityUnit), thon);
+        availableIngredients.Restock(new Quantity.Quantity(1000, tuna.Quantity.QuantityUnit), tuna);
 
         var shopStock = new ShopStock(availableIngredients);
 

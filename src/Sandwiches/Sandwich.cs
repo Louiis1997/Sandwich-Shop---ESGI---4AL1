@@ -43,8 +43,7 @@ public class Sandwich
         else
             throw new ArgumentException("Le sandwich ne contient pas cet ingredient");
     }
-
-    // Override equal
+    
     public override bool Equals(object obj)
     {
         if (obj == null)

@@ -26,4 +26,12 @@ public class Price
     {
         return $"{Value}{Unit}";
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null) return false;
+        if (obj.GetType() != GetType()) return false;
+        var other = (Price)obj;
+        return Value.Equals(other.Value) && Unit.Equals(other.Unit);
+    }
 }

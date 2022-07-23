@@ -26,4 +26,12 @@ public class Currency
     {
         return Symbol;
     }
+    
+    public override bool Equals(object obj)
+    {
+        if (obj == null) return false;
+        if (obj.GetType() != GetType()) return false;
+        var other = (Currency)obj;
+        return Name.Equals(other.Name) && Symbol.Equals(other.Symbol);
+    }
 }
