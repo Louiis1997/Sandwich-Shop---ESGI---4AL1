@@ -14,22 +14,26 @@ public class XmlConverter<T> where T : new()
     {
         _serializer = new XmlSerializer(typeof(T));
     }
-    
+
     public T Deserialize(string xmlPath)
     {
-        
         Stream fs = new FileStream(xmlPath, FileMode.Open);
-        T items = (T)_serializer.Deserialize(new XmlTextReader(fs));
+        var items = (T)_serializer.Deserialize(new XmlTextReader(fs));
         fs.Close();
         return items;
-
     }
 
     public string Serialize(T items, string nameFile)
     {
-        StringWriter stringWriter = new StringWriter();
-        _serializer.Serialize(stringWriter, items );
-        File.WriteAllText(nameFile, stringWriter.ToString(), Encoding.ASCII);
+        // Create folder if needed
+        var path = nameFile;
+        if (!Directory.Exists(Path.GetDirectoryName(path)))
+            Directory.CreateDirectory(Path.GetDirectoryName(path) ??
+                                      throw new InvalidOperationException("Path directory is null for path: " + path));
+
+        var stringWriter = new StringWriter();
+        _serializer.Serialize(stringWriter, items);
+        File.WriteAllText(nameFile, stringWriter.ToString(), Encoding.UTF8);
         return stringWriter.ToString();
     }
 }

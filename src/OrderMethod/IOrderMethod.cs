@@ -8,7 +8,7 @@ namespace sandwichshop.OrderMethod;
 public abstract class IOrderMethod
 {
     public abstract void Order(SandwichShop sandwichShop);
-    
+
     public void SelectBillingMethod(Bill bill, string parsedCommandMessage)
     {
         IBillingMethod billingMethod = null;
@@ -24,7 +24,7 @@ public abstract class IOrderMethod
                     break;
                 case ClientCli.JsonMethod:
                     billingMethod = new JsonBill();
-                    break; 
+                    break;
                 case ClientCli.XmlMethod:
                     billingMethod = new XmlBill();
                     break;
@@ -34,11 +34,14 @@ public abstract class IOrderMethod
                     ClientCli.DisplayUnexpectedBillingMethod();
                     break;
             }
+
             billingMethod?.GetBill(bill, parsedCommandMessage);
         }
         catch (Exception e)
         {
             ClientCli.DisplayException(e);
+            // Print stacktrace
+            Console.WriteLine(e.StackTrace);
         }
     }
 }

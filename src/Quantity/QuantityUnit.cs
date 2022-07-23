@@ -1,9 +1,13 @@
+using System;
+using System.Xml.Serialization;
+
 namespace sandwichshop.Quantity;
 
+[Serializable]
+[XmlInclude(typeof(QuantityUnitName))]
 public class QuantityUnit
 {
     public readonly QuantityUnitName UnitName;
-    public  string Symbol { get; set; }
 
     public QuantityUnit(QuantityUnitName unitName, string symbol)
     {
@@ -11,23 +15,31 @@ public class QuantityUnit
         Symbol = symbol;
     }
 
+    // Default constructor required for XML serialization
+    public QuantityUnit()
+    {
+        UnitName = QuantityUnitName.None;
+    }
+
+    public string Symbol { get; set; }
+
     public override string ToString()
     {
         return Symbol;
     }
-    
+
     public override bool Equals(object obj)
     {
         if (obj == null)
             return false;
 
-        QuantityUnit other = obj as QuantityUnit;
+        var other = obj as QuantityUnit;
         if (other == null)
             return false;
 
         return UnitName == other.UnitName;
     }
-    
+
     public override int GetHashCode()
     {
         return UnitName.GetHashCode();

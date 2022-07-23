@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using sandwichshop.Sandwiches;
@@ -7,31 +8,30 @@ namespace sandwichshop.Billing;
 public class BillUtils
 {
     private static int _billNumber = 1;
+
     public static FinalBill BillToFinalBill(Bill bill)
     {
-        List<CommandBill> result = new List<CommandBill>();
-        foreach (var (sandwich, quantity) in bill.Sandwiches)
-        {
-            result.Add(new CommandBill(sandwich, quantity));
-        }
+        var result = new List<CommandBill>();
+        foreach (var (sandwich, quantity) in bill.Sandwiches) result.Add(new CommandBill(sandwich, quantity));
 
         return new FinalBill(result, bill.TotalPrice);
     }
 
     public static string GetBillName(string format)
     {
-        var billName = "../../../billsFolder/Facture"+_billNumber+"."+format;
+        // Generate file name according to bill generated date and time
+        var fileName = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        var billName = "../../../billsFolder/" + fileName + "-facture" + "." + format;
         _billNumber++;
         return billName;
     }
 }
 
-
-[XmlRoot("Bill")]
+[Serializable]
+[XmlInclude(typeof(CommandBill))]
+[XmlRoot]
 public struct FinalBill
 {
-    [XmlArray("Commands")]
-    [XmlArrayItem("Command")]
     public List<CommandBill> CommandBills { get; }
     public double TotalPrice { get; set; }
 
@@ -42,10 +42,12 @@ public struct FinalBill
     }
 }
 
+[Serializable]
+[XmlInclude(typeof(Quantity.Quantity))]
 public struct CommandBill
 {
-    [XmlIgnore] public Sandwich Sandwich { get; set; }
-    [XmlIgnore] public Quantity.Quantity Quantity { get; set; }
+    public Sandwich Sandwich { get; set; }
+    public Quantity.Quantity Quantity { get; set; }
 
     public CommandBill(Sandwich sandwich, Quantity.Quantity quantity)
     {

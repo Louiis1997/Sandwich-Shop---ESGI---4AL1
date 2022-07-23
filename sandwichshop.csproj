@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="billsFolder" />
       <Folder Include="tests\Bill" />
       <Folder Include="tests\Command" />
       <Folder Include="tests\Menu" />

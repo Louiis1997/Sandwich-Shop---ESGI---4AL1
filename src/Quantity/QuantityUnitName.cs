@@ -1,9 +1,8 @@
-namespace sandwichshop.Quantity
+namespace sandwichshop.Quantity;
+
+public enum QuantityUnitName
 {
-    public enum QuantityUnitName
-    {
-        None,
-        Gram,
-        Milligram,
-    }
+    None,
+    Gram,
+    Milligram
 }
